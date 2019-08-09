@@ -11,7 +11,7 @@ namespace Smab.DiceAndTiles
 	public class NumericFace : Face
 	{
 		public string Display { get; set; } = string.Empty;
-		public int? Value { get; set; }
+		public int Value { get; set; } = 0;
 	}
 
 	public class LetterFace : Face
@@ -23,8 +23,8 @@ namespace Smab.DiceAndTiles
 	public class Die : IDie
 	{
 		public string Name { get; set; } = string.Empty;
-		public byte NoOfFaces { get; set; } = 6;
-		public byte Version { get; } = 1;
+		public int NoOfFaces { get; set; } = 6;
+		public int Version { get; } = 1;
 		protected Random Rnd { get; set; } = new Random();
 		public int UpperFace { get; set; }
 
@@ -32,7 +32,7 @@ namespace Smab.DiceAndTiles
 		{
 		}
 
-		public Die(byte faces)
+		public Die(int faces)
 		{
 			NoOfFaces = faces;
 		}
@@ -52,13 +52,18 @@ namespace Smab.DiceAndTiles
 			Initialise();
 		}
 
-		public NumericDie(byte faces) : base(faces)
+		public NumericDie(int faces) : base(faces)
 		{
 			Initialise();
 		}
 
 		private void Initialise()
 		{
+			if (NoOfFaces <= 0)
+			{
+				throw new ArgumentOutOfRangeException($"{nameof(NoOfFaces)} must be greater than 0");
+			}
+
 			for (int i = 1; i < NoOfFaces + 1; i++)
 			{
 				Faces.Add(new NumericFace
@@ -77,7 +82,7 @@ namespace Smab.DiceAndTiles
 		public LetterFace FaceValue => Faces[UpperFace];
 		public int Orientation { get; set; } = 0;
 
-		public LetterDie(string[] faces) : base((byte)faces.Length)
+		public LetterDie(string[] faces) : base(faces.Length)
 		{
 			foreach (var f in faces)
 			{

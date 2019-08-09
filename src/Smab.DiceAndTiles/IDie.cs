@@ -2,11 +2,11 @@
 {
 	public interface IDie
 	{
-		byte NoOfFaces { get; set; }
+		int NoOfFaces { get; set; }
 		//Random Rnd { get; set; }
 		void Roll();
 
-		byte Version { get; }
+		int Version { get; }
 	}
 
 	public interface IDie<T> : IDie
