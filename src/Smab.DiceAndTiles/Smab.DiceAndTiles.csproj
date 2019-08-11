@@ -9,8 +9,8 @@
   
   <PropertyGroup>
     <PackageReleaseNotes>Initial preview release</PackageReleaseNotes>
-    <VersionPrefix>0.1.1</VersionPrefix>
-    <Preview>preview</Preview>
+    <VersionPrefix>0.2.0</VersionPrefix>
+    <Preview></Preview>
     <VersionSuffix Condition="'$(Preview)' != ''">$(Preview).$([System.DateTime]::get_Now().get_Year())$([System.DateTime]::get_Now().get_Month().ToString("D2"))$([System.DateTime]::get_Now().get_Day().ToString("D2"))-$([System.DateTime]::get_Now().get_Hour().ToString("D2"))$([System.DateTime]::get_Now().get_Minute().ToString("D2"))</VersionSuffix>
   </PropertyGroup>
 

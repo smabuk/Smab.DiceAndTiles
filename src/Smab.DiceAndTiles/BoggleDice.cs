@@ -50,6 +50,10 @@ namespace Smab.DiceAndTiles
 			{
 				die.Roll();
 				die.Orientation = rnd.Next(0, 4) * 90;
+				if (die.FaceValue.Name == "#")
+				{
+					die.FaceValue.Display = "■";
+				}
 			}
 			do
 			{
