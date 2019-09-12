@@ -18,6 +18,7 @@ namespace Smab.DiceAndTiles
 	{
 		public string Display { get; set; } = string.Empty;
 		public string? Value { get; set; }
+		public int? NumericValue { get; set; }
 	}
 
 	public class Die : IDie
@@ -82,6 +83,10 @@ namespace Smab.DiceAndTiles
 		public LetterFace FaceValue => Faces[UpperFace];
 		public int Orientation { get; set; } = 0;
 
+		public LetterDie() : base(6)
+		{
+		}
+
 		public LetterDie(string[] faces) : base(faces.Length)
 		{
 			foreach (var f in faces)
@@ -91,6 +96,19 @@ namespace Smab.DiceAndTiles
 					Name = f,
 					Display = f,
 					Value = f
+				});
+			}
+		}
+		public LetterDie((string face, int numericValue)[] faces) : base(faces.Length)
+		{
+			foreach (var (face, numericValue) in faces)
+			{
+				Faces.Add(new LetterFace
+				{
+					Name = face,
+					Display = face,
+					Value = face,
+					NumericValue = numericValue
 				});
 			}
 		}
