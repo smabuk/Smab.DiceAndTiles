@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Smab.DiceAndTiles
 {
-	public partial class BoggleDice
+	public partial class BoggleDice : IBoggleDice
 	{
 		public List<LetterDie> Dice { get; set; } = new List<LetterDie>();
 		public int NoOfDice { get => Dice.Count; }

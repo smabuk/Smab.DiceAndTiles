@@ -41,11 +41,11 @@ namespace Smab.DiceAndTiles.Test
 		}
 
 		[Fact]
-		public void Create_ExpectsNullReferenceException()
+		public void Create_WithNoParameters_Returns_6_Faces()
 		{
-			void actual() => new LetterDie(null);
+			var actual = new LetterDie();
 
-			Assert.Throws<NullReferenceException>(actual);
+			Assert.Equal(6, actual.NoOfFaces);
 		}
 
 
