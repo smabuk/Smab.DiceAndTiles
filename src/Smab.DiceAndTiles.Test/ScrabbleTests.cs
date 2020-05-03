@@ -12,20 +12,22 @@ namespace Smab.DiceAndTiles.Test
 		private const int NO_OF_ITERATIONS = 1000;
 
 		[Theory]
-		[InlineData(100)]
-		public void Should_Have_100_Tiles(int expected)
+		[InlineData(Scrabble.ScrabbleType.English, 100)]
+		[InlineData(Scrabble.ScrabbleType.English_SuperScrabble, 200)]
+		public void Should_Have_N_Tiles(Scrabble.ScrabbleType scrabbleType, int expected)
 		{
-			var scrabbleSet = new Scrabble();
+			var scrabbleSet = new Scrabble(scrabbleType);
 			var actual = scrabbleSet.NoOfTiles;
 
 			Assert.Equal(expected, actual);
 		}
 
 		[Theory]
-		[InlineData(100)]
-		public void Should_Have_100_Tiles_In_Bag(int expected)
+		[InlineData(Scrabble.ScrabbleType.English, 100)]
+		[InlineData(Scrabble.ScrabbleType.English_SuperScrabble, 200)]
+		public void Should_Have_N_Tiles_In_Bag(Scrabble.ScrabbleType scrabbleType, int expected)
 		{
-			var scrabbleSet = new Scrabble();
+			var scrabbleSet = new Scrabble(scrabbleType);
 			scrabbleSet.ShakeAndFillBag();
 			var actual = scrabbleSet.Bag.Count;
 
