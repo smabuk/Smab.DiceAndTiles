@@ -3,24 +3,6 @@ using System.Collections.Generic;
 
 namespace Smab.DiceAndTiles
 {
-	public class Face
-	{
-		public string Name { get; set; } = string.Empty;
-	}
-
-	public class NumericFace : Face
-	{
-		public string Display { get; set; } = string.Empty;
-		public int Value { get; set; } = 0;
-	}
-
-	public class LetterFace : Face
-	{
-		public string Display { get; set; } = string.Empty;
-		public string? Value { get; set; }
-		public int? NumericValue { get; set; }
-	}
-
 	public class Die : IDie
 	{
 		public string Name { get; set; } = string.Empty;
