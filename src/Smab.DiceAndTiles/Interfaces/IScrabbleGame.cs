@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Smab.DiceAndTiles
 {
-    public interface IScrabble
+    public interface IScrabbleGame
     {
         
     }

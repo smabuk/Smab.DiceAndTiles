@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Smab.DiceAndTiles
+namespace Smab.DiceAndTiles.Scrabble
 {
-	public partial class Scrabble : IScrabble
+	public partial class ScrabbleGame : IScrabbleGame
 	{
 
 		public List<ScrabbleTile> Tiles { get; set; } = new List<ScrabbleTile>();
@@ -18,7 +18,7 @@ namespace Smab.DiceAndTiles
 
 		public ScrabbleType Type { get; set; } = ScrabbleType.English;
 
-		public Scrabble(ScrabbleType type = ScrabbleType.English)
+		public ScrabbleGame(ScrabbleType type = ScrabbleType.English)
 		{
 			Type = type;
 			switch (type)
@@ -32,7 +32,6 @@ namespace Smab.DiceAndTiles
 				default:
 					break;
 			}
-			BoardSize = 9;
 		}
 
 		public void ShakeAndFillBag()
@@ -95,11 +94,11 @@ namespace Smab.DiceAndTiles
 
 			foreach (var distribution in ScrabbleTileDistribution)
 			{
-				for (int i = 0; i < distribution.NoOfTiles; i++)
+				for (int i = 1; i <= distribution.NoOfTiles; i++)
 				{
 					Tiles.Add(new ScrabbleTile(distribution.Letter, distribution.Value)
 					{
-						Name = $"{distribution.NoOfTiles}{i}"
+						Name = $"{distribution.Letter}{i}"
 					});
 				}
 			}
@@ -142,11 +141,11 @@ namespace Smab.DiceAndTiles
 
 			foreach (var distribution in ScrabbleTileDistribution)
 			{
-				for (int i = 0; i < distribution.NoOfTiles; i++)
+				for (int i = 1; i <= distribution.NoOfTiles; i++)
 				{
 					Tiles.Add(new ScrabbleTile(distribution.Letter, distribution.Value)
 					{
-						Name = $"{distribution.NoOfTiles}{i}"
+						Name = $"{distribution.Letter}{i}"
 					});
 				}
 			}
