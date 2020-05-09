@@ -4,7 +4,7 @@
 	{
 		public enum BoggleType
 		{
-			Classic4x4,
+			Classic4x4 = 1,
 			New4x4,
 			BigBoggleOriginal,
 			BigBoggleChallenge,

@@ -10,7 +10,7 @@ namespace Smab.DiceAndTiles
     {
         public enum ScrabbleType 
 		{
-			English,
+			English = 1,
 			English_SuperScrabble
 		}
     }

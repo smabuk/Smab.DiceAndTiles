@@ -46,7 +46,7 @@ namespace Smab.DiceAndTiles
 	public class LetterTile : Tile
 	{
 		public List<LetterFace> Faces { get; set; } = new List<LetterFace>();
-		public LetterFace FaceValue => Faces[UpperFace];
+		public LetterFace Face => Faces[UpperFace];
 		public int Orientation { get; set; } = 0;
 
 		public LetterTile() : base(1)

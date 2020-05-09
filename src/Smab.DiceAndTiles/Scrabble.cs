@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Smab.DiceAndTiles
 {
-    public partial class Scrabble : IScrabble
-    {
+	public partial class Scrabble : IScrabble
+	{
 
-		public List<LetterTile> Tiles { get; set; } = new List<LetterTile>();
+		public List<ScrabbleTile> Tiles { get; set; } = new List<ScrabbleTile>();
 		public int NoOfTiles { get => Tiles.Count; }
-		public List<LetterTile> Board { get; set; } = new List<LetterTile>();
+		public List<ScrabbleTile> Board { get; set; } = new List<ScrabbleTile>();
 		public int NoOfTilesOnBoard { get => Board.Count; }
-		public int BoardSize { get; set; }
-		public List<LetterTile> Bag { get; set; } = new List<LetterTile>();
+		public int BoardSize { get; set; } = 15 * 15;
+		public List<ScrabbleTile> Bag { get; set; } = new List<ScrabbleTile>();
 
 		public ScrabbleType Type { get; set; } = ScrabbleType.English;
 
@@ -37,18 +37,18 @@ namespace Smab.DiceAndTiles
 
 		public void ShakeAndFillBag()
 		{
-			List<LetterTile> bag = new List<LetterTile>(Tiles);
+			List<ScrabbleTile> bag = new List<ScrabbleTile>(Tiles);
 
-			Bag = new List<LetterTile>();
+			Bag = new List<ScrabbleTile>();
 			Random rnd = new Random();
 
 			foreach (var tile in bag)
 			{
 				//die.Roll();
 				tile.Orientation = rnd.Next(0, 4) * 90;
-				if (tile.FaceValue.Name == "#")
+				if (tile.Face.Name == "#")
 				{
-					tile.FaceValue.Display = "■";
+					tile.Face.Display = "■";
 				}
 			}
 			do
@@ -63,7 +63,7 @@ namespace Smab.DiceAndTiles
 		private void Init_English()
 		{
 			var ScrabbleTileDistribution = new[]
-				{ 
+				{
 					(Letter: "#", Value:  0, NoOfTiles:  2),
 					(Letter: "A", Value:  1, NoOfTiles:  9),
 					(Letter: "B", Value:  3, NoOfTiles:  2),
@@ -90,22 +90,27 @@ namespace Smab.DiceAndTiles
 					(Letter: "W", Value:  4, NoOfTiles:  2),
 					(Letter: "X", Value:  8, NoOfTiles:  1),
 					(Letter: "Y", Value:  4, NoOfTiles:  2),
-					(Letter: "Z", Value: 10 ,NoOfTiles:  1) 
+					(Letter: "Z", Value: 10 ,NoOfTiles:  1)
 				};
 
 			foreach (var distribution in ScrabbleTileDistribution)
 			{
 				for (int i = 0; i < distribution.NoOfTiles; i++)
 				{
-					Tiles.Add(new LetterTile(new (string, int)[] { (distribution.Letter, distribution.Value) }) { Name = $"{distribution.NoOfTiles}{i}" });
+					Tiles.Add(new ScrabbleTile(distribution.Letter, distribution.Value)
+					{
+						Name = $"{distribution.NoOfTiles}{i}"
+					});
 				}
 			}
+
+			BoardSize = 15 * 15;
 
 		}
 		private void Init_English_SuperScrabble()
 		{
 			var ScrabbleTileDistribution = new[]
-				{ 
+				{
 					(Letter: "#", Value:  0, NoOfTiles:  4),
 					(Letter: "A", Value:  1, NoOfTiles: 16),
 					(Letter: "B", Value:  3, NoOfTiles:  4),
@@ -132,17 +137,21 @@ namespace Smab.DiceAndTiles
 					(Letter: "W", Value:  4, NoOfTiles:  4),
 					(Letter: "X", Value:  8, NoOfTiles:  2),
 					(Letter: "Y", Value:  4, NoOfTiles:  4),
-					(Letter: "Z", Value: 10 ,NoOfTiles:  2) 
+					(Letter: "Z", Value: 10 ,NoOfTiles:  2)
 				};
 
 			foreach (var distribution in ScrabbleTileDistribution)
 			{
 				for (int i = 0; i < distribution.NoOfTiles; i++)
 				{
-					Tiles.Add(new LetterTile(new (string, int)[] { (distribution.Letter, distribution.Value) }) { Name = $"{distribution.NoOfTiles}{i}" });
+					Tiles.Add(new ScrabbleTile(distribution.Letter, distribution.Value)
+					{
+						Name = $"{distribution.NoOfTiles}{i}"
+					});
 				}
 			}
 
+			BoardSize = 21 * 21;
 		}
 
 	}
