@@ -1,17 +1,15 @@
-﻿namespace Smab.DiceAndTiles
+﻿namespace Smab.DiceAndTiles;
+
+public interface IDie
 {
-	public interface IDie
-	{
-		int NoOfFaces { get; set; }
-		//Random Rnd { get; set; }
-		void Roll();
+	int NoOfFaces { get; set; }
+	//Random Rnd { get; set; }
+	void Roll();
 
-		int Version { get; }
-	}
+	int Version { get; }
+}
 
-	public interface IDie<T> : IDie
-	{
-		T FaceValue { get; set; }
-	}
-
+public interface IDie<T> : IDie
+{
+	T FaceValue { get; set; }
 }

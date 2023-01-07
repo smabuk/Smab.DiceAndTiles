@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+﻿namespace Smab.DiceAndTiles.Test;
 
-namespace Smab.DiceAndTiles.Test
+public class ScrabbleDiceTests
 {
-	public class ScrabbleDiceTests
+	private const int NO_OF_ITERATIONS = 1000;
+
+	[Fact]
+	public void Should_Have_7_Dice()
 	{
-		private const int NO_OF_ITERATIONS = 1000;
+		int expected = 7;
+		var set = new ScrabbleDice();
+		var actual =set.NoOfDice;
 
-		[Fact]
-		public void Should_Have_7_Dice()
-		{
-			int expected = 7;
-			var set = new ScrabbleDice();
-			var actual =set.NoOfDice;
-
-			Assert.Equal(expected, actual);
-		}
-
-		[Fact]
-		public void Should_Have_7_Dice_In_Rack()
-		{
-			var set = new ScrabbleDice();
-
-			set.ShakeAndFillRack();
-			var actual = set.Rack.Count;
-
-			Assert.Equal(7, actual);
-		}
-
+		Assert.Equal(expected, actual);
 	}
+
+	[Fact]
+	public void Should_Have_7_Dice_In_Rack()
+	{
+		var set = new ScrabbleDice();
+
+		set.ShakeAndFillRack();
+		var actual = set.Rack.Count;
+
+		Assert.Equal(7, actual);
+	}
+
 }

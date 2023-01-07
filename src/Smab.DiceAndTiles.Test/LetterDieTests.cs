@@ -1,53 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
+﻿namespace Smab.DiceAndTiles.Test;
 
-namespace Smab.DiceAndTiles.Test
+public class LetterDieTests
 {
-	public class LetterDieTests
+	private const int NO_OF_ITERATIONS = 1000;
+
+	[Theory]
+	[InlineData(new string[] { "A" }, 1)]
+	[InlineData(new string[] { "A", "Qu" }, 2)]
+	[InlineData(new string[] { "A", "B", "C" }, 3)]
+	public void Create_WithNFaces_ReturnsDieWithNFaces(string[] faces, int expected)
 	{
-		private const int NO_OF_ITERATIONS = 1000;
+		var die = new LetterDie(faces);
+		var actual = die.NoOfFaces;
 
-		[Theory]
-		[InlineData(new string[] { "A" }, 1)]
-		[InlineData(new string[] { "A", "Qu" }, 2)]
-		[InlineData(new string[] { "A", "B", "C" }, 3)]
-		public void Create_WithNFaces_ReturnsDieWithNFaces(string[] faces, int expected)
+		Assert.Equal(expected, actual);
+	}
+
+	[Theory]
+	[InlineData(new string[] { "A", "B", "C", "D" }, 4)]
+	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, 5)]
+	public void Create_WithNFaces_ExpectsFaceValueInRange(string[] faces, int expectedFaces)
+	{
+
+		var dice = new List<LetterDie>[NO_OF_ITERATIONS]
+			.Select(d => new LetterDie(faces))
+			.ToList();
+
+		foreach (var die in dice)
 		{
-			var die = new LetterDie(faces);
-			var actual = die.NoOfFaces;
-
-			Assert.Equal(expected, actual);
+			die.Roll();
 		}
 
-		[Theory]
-		[InlineData(new string[] { "A", "B", "C", "D" }, 4)]
-		[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, 5)]
-		public void Create_WithNFaces_ExpectsFaceValueInRange(string[] faces, int expectedFaces)
-		{
-
-			var dice = new List<LetterDie>[NO_OF_ITERATIONS]
-				.Select(d => new LetterDie(faces))
-				.ToList();
-
-			foreach (var die in dice)
-			{
-				die.Roll();
-			}
-
-			Assert.All(dice, d => Assert.Contains(d.FaceValue.Value, faces.ToList()));
-
-		}
-
-		[Fact]
-		public void Create_WithNoParameters_Returns_6_Faces()
-		{
-			var actual = new LetterDie();
-
-			Assert.Equal(6, actual.NoOfFaces);
-		}
-
+		Assert.All(dice, d => Assert.Contains(d.FaceValue.Value, faces.ToList()));
 
 	}
+
+	[Fact]
+	public void Create_WithNoParameters_Returns_6_Faces()
+	{
+		var actual = new LetterDie();
+
+		Assert.Equal(6, actual.NoOfFaces);
+	}
+
+
 }

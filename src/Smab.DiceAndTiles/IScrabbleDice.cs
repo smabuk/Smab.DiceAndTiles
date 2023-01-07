@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace Smab.DiceAndTiles;
 
-namespace Smab.DiceAndTiles
+public interface IScrabbleDice
 {
-	public interface IScrabbleDice
-	{
-		List<LetterDie> Board { get; set; }
-		int BoardSize { get; set; }
-		List<LetterDie> Dice { get; set; }
-		int NoOfDice { get; }
-		int NoOfDiceOnBoard { get; }
+	List<LetterDie> Board { get; set; }
+	int BoardSize { get; set; }
+	List<LetterDie> Dice { get; set; }
+	int NoOfDice { get; }
+	int NoOfDiceOnBoard { get; }
 
-		void ShakeAndFillRack();
-	}
+	void ShakeAndFillRack();
 }
