@@ -31,17 +31,9 @@ public class LetterDieTests
 			die.Roll();
 		}
 
+		Assert.Equal(expectedFaces, dice.First().Faces.Count);
 		Assert.All(dice, d => Assert.Contains(d.FaceValue.Value, faces.ToList()));
 
 	}
-
-	[Fact]
-	public void Create_WithNoParameters_Returns_6_Faces()
-	{
-		var actual = new LetterDie();
-
-		Assert.Equal(6, actual.NoOfFaces);
-	}
-
 
 }

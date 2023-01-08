@@ -29,18 +29,15 @@ public partial class ScrabbleDice : IScrabbleDice
 		Rack = new();
 		Random rnd = new();
 
-		foreach (LetterDie die in bag)
-		{
-			die.Roll();
-			die.Orientation = rnd.Next(0, 4) * 90;
-			if (die.FaceValue.Name == "#")
-			{
-				die.FaceValue.Display = "■";
-			}
-		}
 		do
 		{
 			int i = rnd.Next(0, bag.Count);
+			bag[i].Roll();
+			bag[i].Orientation = rnd.Next(0, 4) * 90;
+			if (bag[i].FaceValue.Name == "#")
+			{
+				bag[i].Faces[bag[i].UpperFace] = bag[i].FaceValue with { Display = "■" };
+			}
 			Rack.Add(bag[i]);
 			bag.Remove(bag[i]);
 		} while (bag.Count > 0);

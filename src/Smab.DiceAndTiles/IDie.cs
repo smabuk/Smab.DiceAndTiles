@@ -2,10 +2,8 @@
 
 public interface IDie
 {
-	int NoOfFaces { get; set; }
+	int NoOfFaces { get; }
 	void Roll();
-
-	int Version { get; }
 }
 
 public interface IDie<T> : IDie
