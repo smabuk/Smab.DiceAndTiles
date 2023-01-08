@@ -1,6 +1,6 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public partial class BoggleDice
+public partial record BoggleDice
 {
 	public enum BoggleType
 	{

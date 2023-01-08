@@ -18,15 +18,6 @@ public record QLessDice
 		new LetterDie(new (string, int)[] { ("A", 1), ("A", 1), ("E", 1), ("E", 1), ("O", 1), ("O", 1) }) { Name = "AAEEOO" },
 	};
 
-	public List<LetterDie> Dice { get; set; } = s_letterDice;
-	public int NoOfDice => Dice.Count;
-
-	public List<LetterDie> Board { get; set; } = new();
-	public int NoOfDiceOnBoard => Board.Count;
-	public int BoardSize => 10;
-
-	public List<LetterDie> Rack { get; set; } = new();
-
 	public void ShakeAndFillRack()
 	{
 		List<LetterDie> bag = new(Dice);
@@ -47,4 +38,13 @@ public record QLessDice
 		} while (bag.Count > 0);
 
 	}
+
+	public List<LetterDie> Dice { get; set; } = s_letterDice;
+	public int NoOfDice => Dice.Count;
+
+	public List<LetterDie> Board { get; set; } = new();
+	public int NoOfDiceOnBoard => Board.Count;
+	public int BoardSize => 10;
+
+	public List<LetterDie> Rack { get; set; } = new();
 }

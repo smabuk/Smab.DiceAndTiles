@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>11.0</LangVersion>
+		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageReleaseNotes>Add Q-Less dice</PackageReleaseNotes>
-		<VersionPrefix>0.2.6</VersionPrefix>
+		<PackageReleaseNotes>Target net7.0</PackageReleaseNotes>
+		<VersionPrefix>0.7.0</VersionPrefix>
 		<Preview></Preview>
 		<VersionSuffix Condition="'$(Preview)' != '' And '$(BUILD_BUILDNUMBER)' == ''">$(Preview).$([System.DateTime]::get_Now().get_Year())$([System.DateTime]::get_Now().get_Month().ToString("D2"))$([System.DateTime]::get_Now().get_Day().ToString("D2"))-$([System.DateTime]::get_Now().get_Hour().ToString("D2"))$([System.DateTime]::get_Now().get_Minute().ToString("D2"))</VersionSuffix>
 		<VersionSuffix Condition="'$(Preview)' != '' And '$(BUILD_BUILDNUMBER)' != ''">$(Preview).$(BUILD_BUILDNUMBER)</VersionSuffix>

@@ -1,11 +1,12 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public partial class BoggleDice : IBoggleDice
+public partial record BoggleDice : IBoggleDice
 {
-	public List<LetterDie> Dice { get; set; } = new List<LetterDie>();
-	public int NoOfDice { get => Dice.Count; }
-	public List<LetterDie> Board { get; set; } = new List<LetterDie>();
-	public int NoOfDiceOnBoard { get => Board.Count; }
+	public List<LetterDie> Dice { get; set; } = new();
+	public int NoOfDice => Dice.Count;
+
+	public List<LetterDie> Board { get; set; } = new();
+	public int NoOfDiceOnBoard => Board.Count;
 	public int BoardSize { get; set; }
 
 	public BoggleType Type { get; set; } = BoggleType.Classic4x4;
@@ -38,12 +39,12 @@ public partial class BoggleDice : IBoggleDice
 
 	public void ShakeAndFillBoard()
 	{
-		List<LetterDie> bag = new List<LetterDie>(Dice);
+		List<LetterDie> bag = new(Dice);
 
-		Board = new List<LetterDie>();
-		Random rnd = new Random();
+		Board = new();
+		Random rnd = new();
 
-		foreach (var die in bag)
+		foreach (LetterDie die in bag)
 		{
 			die.Roll();
 			die.Orientation = rnd.Next(0, 4) * 90;

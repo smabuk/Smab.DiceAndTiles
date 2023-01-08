@@ -1,24 +1,17 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public class Face
-{
-	public string Name { get; set; } = string.Empty;
-}
+public record Face(string Name = "");
 
-public class NumericFace : Face
-{
-	public string Display { get; set; } = string.Empty;
-	public int Value { get; set; } = 0;
-}
+public record NumericFace(string Display = "", int Value = 0) : Face();
 
-public class LetterFace : Face
+public record LetterFace : Face
 {
 	public string Display { get; set; } = string.Empty;
 	public string? Value { get; set; }
 	public int? NumericValue { get; set; }
 }
 
-public class Die : IDie
+public record Die : IDie
 {
 	public string Name { get; set; } = string.Empty;
 	public int NoOfFaces { get; set; } = 6;
@@ -40,7 +33,7 @@ public class Die : IDie
 		UpperFace = Rnd.Next(0, NoOfFaces);
 	}
 }
-public class NumericDie : Die
+public record NumericDie : Die
 {
 	public List<NumericFace> Faces { get; set; } = new List<NumericFace>();
 	public NumericFace FaceValue => Faces[UpperFace];
@@ -74,7 +67,7 @@ public class NumericDie : Die
 	}
 }
 
-public class LetterDie : Die
+public record LetterDie : Die
 {
 	public List<LetterFace> Faces { get; set; } = new List<LetterFace>();
 	public LetterFace FaceValue => Faces[UpperFace];
@@ -86,7 +79,7 @@ public class LetterDie : Die
 
 	public LetterDie(string[] faces) : base(faces.Length)
 	{
-		foreach (var f in faces)
+		foreach (string f in faces)
 		{
 			Faces.Add(new LetterFace
 			{
@@ -98,7 +91,7 @@ public class LetterDie : Die
 	}
 	public LetterDie((string face, int numericValue)[] faces) : base(faces.Length)
 	{
-		foreach (var (face, numericValue) in faces)
+		foreach ((string face, int numericValue) in faces)
 		{
 			Faces.Add(new LetterFace
 			{

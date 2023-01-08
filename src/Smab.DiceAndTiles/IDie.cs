@@ -3,7 +3,6 @@
 public interface IDie
 {
 	int NoOfFaces { get; set; }
-	//Random Rnd { get; set; }
 	void Roll();
 
 	int Version { get; }
