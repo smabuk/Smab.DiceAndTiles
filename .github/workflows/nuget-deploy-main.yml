@@ -31,6 +31,16 @@ jobs:
         with:
           dotnet-version: ${{ env.dotnet_core_version }}
 
+      # Run dotnet build 
+      - name: dotnet Build
+        run: dotnet build src/${{ env.package_name }}/${{ env.package_name }}.csproj --configuration ${{ env.config }}
+        shell: bash
+
+      # Run dotnet publish 
+      - name: dotnet Publish
+        run: dotnet publish src/${{ env.package_name }}/${{ env.package_name }}.csproj --configuration ${{ env.config }}
+        shell: bash
+
       # Run dotnet pack to create the nupkg file for the project and store in artifacts folder
       - name: Run Pack
         run: dotnet pack src/${{ env.package_name }}/${{ env.package_name }}.csproj -o ./artifacts --configuration ${{ env.config }}
