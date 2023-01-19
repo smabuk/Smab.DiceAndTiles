@@ -10,6 +10,14 @@ public record Die(string Name = "", int NoOfFaces = 6) : IDie
 	public int UpperFace { get; set; }
 
 	public virtual void Roll() => UpperFace = Rnd.Next(0, NoOfFaces);
+
+	public virtual string Display => this switch
+	{
+		NumericDie die => die.FaceValue.Display,
+		LetterDie  die => die.FaceValue.Display,
+		_ => "",
+	};
+
 }
 
 public record NumericDie(int NoOfFaces = 6) : Die(NoOfFaces: NoOfFaces)
@@ -40,3 +48,5 @@ public record LetterDie : Die
 	public LetterFace FaceValue => Faces[UpperFace];
 	public int Orientation { get; set; } = 0;
 }
+
+public record PositionedDie(Die Die, int Col, int Row, int? Index = null);
