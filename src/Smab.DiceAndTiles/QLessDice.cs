@@ -1,8 +1,10 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public record QLessDice
+public class QLessDice
 {
-	public static int BoardSize => 10;
+	public static readonly int BoardHeight = 10;
+	public static readonly int BoardWidth  = 12;
+	public static readonly int RackSize    = 12;
 
 	private static readonly List<LetterDie> s_letterDice = new()
 	{
@@ -20,16 +22,17 @@ public record QLessDice
 		new LetterDie(new string[] { "A", "A", "E", "E", "O", "O" }) { Name = "AAEEOO" },
 	};
 
+	public QLessDice()
+	{
+		ShakeAndFillRack();
+	}
+
 	public void ShakeAndFillRack()
 	{
 		List<LetterDie> bag = new(Dice);
 
 		Rack = new();
 		Random rnd = new();
-
-		foreach (LetterDie die in bag)
-		{
-		}
 
 		do
 		{
@@ -40,12 +43,16 @@ public record QLessDice
 			bag.Remove(bag[i]);
 		} while (bag.Count > 0);
 
+		for (int i = 0; i < Rack.Count; i++)
+		{
+			Board.Add(new PositionedDie(Rack[i], 6, -1, i));
+		}
 	}
 
-	public List<LetterDie> Board { get; set; } = new();
-	public List<LetterDie> Dice  { get; set; } = new(s_letterDice);
+	public List<PositionedDie> Board { get; set; } = new();
+	public List<LetterDie>     Dice  { get; set; } = new(s_letterDice);
 
-	public int NoOfDice => Dice.Count;
+	public int NoOfDice        => Dice.Count;
 	public int NoOfDiceOnBoard => Board.Count;
 
 	public List<LetterDie> Rack { get; set; } = new();

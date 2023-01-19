@@ -1,8 +1,6 @@
-﻿using static Smab.DiceAndTiles.BoggleDice;
+﻿namespace Smab.DiceAndTiles;
 
-namespace Smab.DiceAndTiles;
-
-public record BoggleDice(BoggleType Type = BoggleType.Classic4x4)
+public class BoggleDice
 {
 	private static readonly List<LetterDie> s_Dice_Classic4x4 = new()
 	{
@@ -158,6 +156,25 @@ public record BoggleDice(BoggleType Type = BoggleType.Classic4x4)
 		new LetterDie(new string[] { "O", "O", "O", "T", "T", "U" }) { Name = "OOOTTU" }
 	};
 
+	public BoggleDice(BoggleType type = BoggleType.Classic4x4)
+	{
+		Type = type;
+
+		BoardSize = (int)Math.Sqrt(Type switch
+		{
+			BoggleType.Classic4x4 => s_Dice_Classic4x4.Count,
+			BoggleType.New4x4 => s_Dice_New4x4.Count,
+			BoggleType.BigBoggleOriginal => s_Dice_BigBoggleOriginal.Count,
+			BoggleType.BigBoggleDeluxe => s_Dice_BigBoggleDeluxe.Count,
+			BoggleType.SuperBigBoggle2012 => s_Dice_SuperBigBoggle2012.Count,
+			_ => throw new NotImplementedException(),
+		});
+		BoardHeight = BoardSize;
+		BoardWidth  = BoardSize;
+
+		ShakeAndFillBoard();
+	}
+
 	public enum BoggleType
 	{
 		Classic4x4,
@@ -168,10 +185,20 @@ public record BoggleDice(BoggleType Type = BoggleType.Classic4x4)
 		SuperBigBoggle2012
 	}
 
-	public List<LetterDie> Board { get; set; } = new ();
-	
-	public int BoardSize => (int)Math.Sqrt(Board.Count);
-	
+	public enum CheckResult
+	{
+		Success,
+		Unplayable,
+		Misspelt
+	}
+
+	public List<PositionedDie> Board { get; private set; } = new();
+	public BoggleType Type { get; init; }
+
+	public int BoardSize   { get; }
+	public int BoardHeight { get; }
+	public int BoardWidth  { get; }
+
 	public List<LetterDie> Dice => Type switch
 	{
 		BoggleType.Classic4x4         => new(s_Dice_Classic4x4),
@@ -182,27 +209,156 @@ public record BoggleDice(BoggleType Type = BoggleType.Classic4x4)
 		_ => throw new NotImplementedException(),
 	};
 
-	public int NoOfDice => Dice.Count;
-	
+	public int NoOfDice        => Dice.Count;
 	public int NoOfDiceOnBoard => Board.Count;
 
-	public void ShakeAndFillBoard()
-	{
-		List<LetterDie> bag = new(Dice);
+	public void ShakeAndFillBoard() => Board = ShakeAndCreateBoard();
 
-		Board = new();
+	private List<PositionedDie> ShakeAndCreateBoard()
+	{
+		List<LetterDie>       bag = new(Dice);
+		List<PositionedDie> board = new();
+
+		Board      = new();
 		Random rnd = new();
 
+		int boardIndex = 0;
 		do
 		{
-			int i = rnd.Next(0, bag.Count);
-			bag[i].Roll();
-			if (bag[i].FaceValue.Name == "#")
+			int bagIndex = rnd.Next(0, bag.Count);
+			bag[bagIndex].Roll();
+			if (bag[bagIndex].FaceValue.Name == "#")
 			{
-				bag[i].Faces[bag[i].UpperFace] = bag[i].FaceValue with { Display = "■" };
+				bag[bagIndex].Faces[bag[bagIndex].UpperFace] = bag[bagIndex].FaceValue with { Display = "■" };
 			}
-			Board.Add(bag[i] with { Orientation = rnd.Next(0, 4) * 90 });
-			bag.Remove(bag[i]);
+			board.Add(new PositionedDie(bag[bagIndex] with { Orientation = rnd.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));
+			bag.Remove(bag[bagIndex]);
+			boardIndex++;
 		} while (bag.Count > 0);
+
+		return board;
 	}
+
+	public (int score, CheckResult reason) CheckAndScoreWord(string word)
+	{
+		CheckResult reason = CheckResult.Success;
+		List<PositionedDie> validSlots = SearchBoard(word);
+		int score = 0;
+		if (validSlots.Any())
+		{
+			score = ScoreWord(word);
+		}
+		else
+		{
+			reason = CheckResult.Unplayable;
+		}
+
+		return (score, reason);
+	}
+
+	public int ScoreWord(string word)
+	{
+		return (Type, word.Length) switch
+		{
+			(BoggleType.BigBoggleDeluxe or BoggleType.BigBoggleOriginal or BoggleType.BigBoggleChallenge or BoggleType.SuperBigBoggle2012, <= 3) => 0,
+			(BoggleType.SuperBigBoggle2012, >= 9) => word.Length * 2,
+			(_, 3)    =>  1,
+			(_, 4)    =>  1,
+			(_, 5)    =>  2,
+			(_, 6)    =>  3,
+			(_, 7)    =>  5,
+			(_, >= 8) => 11,
+			(_, _)    =>  0
+		};
+
+		/*
+		*     4x4 version            5x5 version           6x6 version
+		*
+		*    Word                   Word                  Word
+		*   length	Points         length	Points       length	Points
+		*     3       1              3       0             3       0
+		*     4       1              4       1             4       1
+		*     5       2              5       2             5       2
+		*     6       3              6       3             6       3
+		*     7       5              7       5             7       5
+		*     8+     11              8+     11             8      11
+		*                                                  9+   2 pts per letter
+		*/
+	}
+
+
+	/// <summary>
+	/// Searches the Board and validates the word.
+	/// </summary>
+	/// <param name="word"></param>
+	/// <returns>Returns the first list of slots that make up the word otherwise returns an empty List</returns>
+	public List<PositionedDie> SearchBoard(string word)
+	{
+		List<PositionedDie> result = new();
+		int cols = Board.Max(x => x.Col) + 1;
+		int rows = Board.Max(x => x.Row) + 1;
+		bool[,] visited = new bool[rows, cols];
+		for (int i = 0; i < Board.Count; i++)
+		{
+			if (SearchBoardDFS(word, 0, Board[i].Col, Board[i].Row, visited, result))
+			{
+				return result;
+			}
+		}
+		return result;
+	}
+
+	/// <summary>
+	/// Uses a Depth First Search algorithm to find the slots that make up the word
+	/// </summary>
+	/// <param name="word"></param>
+	/// <param name="index"></param>
+	/// <param name="col"></param>
+	/// <param name="row"></param>
+	/// <param name="visited"></param>
+	/// <param name="result"></param>
+	/// <returns></returns>
+	private bool SearchBoardDFS(string word, int index, int col, int row, bool[,] visited, List<PositionedDie> result)
+	{
+		if (index == word.Length)
+		{
+			return true;
+		}
+
+		if (col < 0 || col >= visited.GetLength(0) || row < 0 || row >= visited.GetLength(1))
+		{
+			return false;
+		}
+
+		if (visited[col, row])
+		{
+			return false;
+		}
+
+		PositionedDie current = Board.First(d => d.Col == col && d.Row == row);
+		int newIndex = Math.Min(word.Length, index + current.Die.Display.Length);
+		if (current.Die.Display.ToUpperInvariant() != word[index..newIndex])
+		{
+			return false;
+		}
+
+		result.Add(current);
+		visited[col, row] = true;
+		bool found = SearchBoardDFS(word, newIndex, col - 1, row - 1, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col, row - 1, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col + 1, row - 1, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col - 1, row, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col + 1, row, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col - 1, row + 1, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col, row + 1, visited, result) ||
+					 SearchBoardDFS(word, newIndex, col + 1, row + 1, visited, result);
+		if (!found)
+		{
+			result.Remove(current);
+		}
+
+		visited[col, row] = false;
+		return found;
+	}
+
 }
