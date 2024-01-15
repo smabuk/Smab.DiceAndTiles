@@ -2,8 +2,6 @@
 
 public class QLessDiceTests
 {
-	private const int NO_OF_ITERATIONS = 1000;
-
 	[Fact]
 	public void Should_Have_12_Dice()
 	{
