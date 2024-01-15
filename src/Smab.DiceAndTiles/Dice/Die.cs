@@ -17,16 +17,17 @@ public record Die(string Name = "", int NoOfFaces = 6) : IDie
 		LetterDie  die => die.FaceValue.Display,
 		_ => "",
 	};
-
 }
 
 public record NumericDie(int NoOfFaces = 6) : Die(NoOfFaces: NoOfFaces)
 {
+#pragma warning disable IDE0052 // Remove unread private members
 	// Workaround to validate
-	private readonly bool _validate = 
+	private readonly bool _validate =
 		NoOfFaces <= 0
-		? throw new ArgumentOutOfRangeException($"{nameof(NoOfFaces)} must be greater than 0") 
+		? throw new ArgumentOutOfRangeException($"{nameof(NoOfFaces)} must be greater than 0")
 		: true;
+#pragma warning restore IDE0052 // Remove unread private members
 
 	public List<NumericFace> Faces { get; set; } = Enumerable
 		.Range(1, NoOfFaces)
@@ -44,7 +45,7 @@ public record LetterDie : Die
 	public LetterDie((string face, int numericValue)[] faces) : base(NoOfFaces: faces.Length)
 		=> Faces = faces.Select(item => new LetterFace(item.face, item.face, item.face, item.numericValue)).ToList();
 
-	public List<LetterFace> Faces { get; set; } = new();
+	public List<LetterFace> Faces { get; set; } = [];
 	public LetterFace FaceValue => Faces[UpperFace];
 	public int Orientation { get; set; } = 0;
 }
