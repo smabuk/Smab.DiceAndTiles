@@ -41,7 +41,7 @@ public class NumericDieTests
 	{
 		void actual() => new NumericDie(noOfFaces);
 
-		Assert.Throws<ArgumentOutOfRangeException>(actual);
+		_ = Assert.Throws<ArgumentOutOfRangeException>(actual);
 	}
 
 
