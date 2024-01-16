@@ -2,8 +2,6 @@
 
 public class BoggleTests
 {
-	private const int NO_OF_ITERATIONS = 1000;
-
 	[Theory]
 	[InlineData(BoggleDice.BoggleType.Classic4x4, 16)]
 	[InlineData(BoggleDice.BoggleType.BigBoggleDeluxe, 25)]

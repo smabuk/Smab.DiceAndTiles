@@ -1,6 +1,4 @@
-﻿using static Smab.DiceAndTiles.ScrabbleWordFinder;
-
-namespace Smab.DiceAndTiles.Test;
+﻿namespace Smab.DiceAndTiles.Test;
 
 public class ScrabbleWordFinderTests
 {
@@ -10,17 +8,17 @@ public class ScrabbleWordFinderTests
 	[Fact]
 	public void Board_Should_Have_Islands()
 	{
-		List<PositionedLetter> board = [
-			new PositionedLetter('T', 4, 3),
-			new PositionedLetter('H', 5, 3),
-			new PositionedLetter('I', 6, 3),
-			new PositionedLetter('S', 7, 3),
+		List<PositionedTile> board = [
+			new PositionedTile(new LetterTile('T'), 4, 3),
+			new PositionedTile(new LetterTile('H'), 5, 3),
+			new PositionedTile(new LetterTile('I'), 6, 3),
+			new PositionedTile(new LetterTile('S'), 7, 3),
 			
-			new PositionedLetter('I', 4, 2),
+			new PositionedTile(new LetterTile('I'), 4, 2),
 
-			new PositionedLetter('B', 1, 1),
-			new PositionedLetter('A', 2, 1),
-			new PositionedLetter('D', 3, 1),
+			new PositionedTile(new LetterTile('B'), 1, 1),
+			new PositionedTile(new LetterTile('A'), 2, 1),
+			new PositionedTile(new LetterTile('D'), 3, 1),
 		];
 
 		ScrabbleWordFinder swf = new(board);
@@ -42,17 +40,17 @@ public class ScrabbleWordFinderTests
 	[Fact]
 	public void Board_Should_Be_In_One_Piece()
 	{
-		List<PositionedLetter> board = [
-			new PositionedLetter('T', 4, 3),
-			new PositionedLetter('H', 5, 3),
-			new PositionedLetter('I', 6, 3),
-			new PositionedLetter('S', 7, 3),
+		List<PositionedTile> board = [
+			new PositionedTile(new LetterTile('T'), 4, 3),
+			new PositionedTile(new LetterTile('H'), 5, 3),
+			new PositionedTile(new LetterTile('I'), 6, 3),
+			new PositionedTile(new LetterTile('S'), 7, 3),
 
-			new PositionedLetter('I', 4, 2),
+			new PositionedTile(new LetterTile('I'), 4, 2),
 
-			new PositionedLetter('B', 4, 1),
-			new PositionedLetter('A', 5, 1),
-			new PositionedLetter('D', 6, 1),
+			new PositionedTile(new LetterTile('B'), 4, 1),
+			new PositionedTile(new LetterTile('A'), 5, 1),
+			new PositionedTile(new LetterTile('D'), 6, 1),
 		];
 
 		ScrabbleWordFinder swf = new(board);
@@ -72,17 +70,17 @@ public class ScrabbleWordFinderTests
 	[Fact]
 	public void Words_Should_Be_Spelt_Correctly()
 	{
-		List<PositionedLetter> board = [
-			new PositionedLetter('T', 4, 3),
-			new PositionedLetter('H', 5, 3),
-			new PositionedLetter('I', 6, 3),
-			new PositionedLetter('S', 7, 3),
+		List<PositionedTile> board = [
+			new PositionedTile(new LetterTile('T'), 4, 3),
+			new PositionedTile(new LetterTile('H'), 5, 3),
+			new PositionedTile(new LetterTile('I'), 6, 3),
+			new PositionedTile(new LetterTile('S'), 7, 3),
 
-			new PositionedLetter('I', 4, 2),
+			new PositionedTile(new LetterTile('I'), 4, 2),
 
-			new PositionedLetter('B', 4, 1),
-			new PositionedLetter('A', 5, 1),
-			new PositionedLetter('D', 6, 1),
+			new PositionedTile(new LetterTile('B'), 4, 1),
+			new PositionedTile(new LetterTile('A'), 5, 1),
+			new PositionedTile(new LetterTile('D'), 6, 1),
 		];
 
 		ScrabbleWordFinder swf = new(board, _dictionaryOfWords);

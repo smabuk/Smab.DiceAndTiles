@@ -1,20 +1,22 @@
-﻿using static Smab.DiceAndTiles.ScrabbleWordFinder;
+﻿namespace Smab.DiceAndTiles;
 
-namespace Smab.DiceAndTiles;
-
-public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryOfWords? dictionary = null)
+public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, DictionaryOfWords? dictionary = null)
 {
-	private readonly List<PositionedLetter> _board = board.ToList();
+	private readonly List<PositionedTile> _board = tiles.ToList();
 	private readonly HashSet<string> _visited = [];
 
-	public List<List<PositionedLetter>> Islands      { get; private set; } = [];
-	public List<List<PositionedLetter>> InvalidWordsAsTiles { get; private set; } = [];
-	public List<List<PositionedLetter>> ValidWordsAsTiles   { get; private set; } = [];
+	public List<List<PositionedTile>> Islands      { get; private set; } = [];
+	public List<List<PositionedTile>> InvalidWordsAsTiles { get; private set; } = [];
+	public List<List<PositionedTile>> ValidWordsAsTiles   { get; private set; } = [];
+
+
+	public ScrabbleWordFinder(IEnumerable<PositionedDie> dice, DictionaryOfWords? dictionary = null) : 
+		this(dice.Select(d => new PositionedTile(new LetterTile(d.Die.Display), d.Col, d.Row)), dictionary) { }
 
 	public bool IsBlockInMoreThanOnePiece()
 	{
 		HashSet<(int Col, int Row)> visited = [];
-		List<PositionedLetter> island = [];
+		List<PositionedTile> island = [];
 
 		int noOfIslands = 0;
 		foreach (var tile in _board)
@@ -39,7 +41,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 				return;
 			}
 
-			PositionedLetter? tile = _board.SingleOrDefault(t => t.Col == col && t.Row == row);
+			PositionedTile? tile = _board.SingleOrDefault(t => t.Col == col && t.Row == row);
 			if (visited.Contains((col, row)) || tile is null)
 			{
 				return;
@@ -60,21 +62,24 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 		ValidWordsAsTiles = [];
 		InvalidWordsAsTiles = [];
 
-		foreach (PositionedLetter currentTile in _board) {
+		foreach (PositionedTile currentTile in _board) {
 			_ = _visited.Add(GetKey(currentTile.Col, currentTile.Row));
-			List<PositionedLetter> currentWord = [currentTile];
+			List<PositionedTile> currentWord = [currentTile];
 			if (IsStartOfWord(currentTile, Direction.Horizontal)) {
 				FindWords(currentTile, currentWord, foundWords, Direction.Horizontal);
 			}
+
 			if (IsStartOfWord(currentTile, Direction.Vertical)) {
 				FindWords(currentTile, currentWord, foundWords, Direction.Vertical);
 			}
+
 			_ = _visited.Remove(GetKey(currentTile.Col, currentTile.Row));
 		}
+
 		return foundWords;
 	}
 
-	private void FindWords(PositionedLetter currentTile, List<PositionedLetter> currentWord, List<string> foundWords, Direction direction) {
+	private void FindWords(PositionedTile currentTile, List<PositionedTile> currentWord, List<string> foundWords, Direction direction) {
 		string currentWordString = CreateWord(currentWord);
 		if (currentWordString.Length > 1 && IsEndOfWord(currentTile, direction)) {
 
@@ -91,7 +96,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 			}
 		}
 
-		List<PositionedLetter> neighbours = GetNeighbours(currentTile, direction);
+		List<PositionedTile> neighbours = GetNeighbours(currentTile, direction);
 		for (int i = 0; i < neighbours.Count; i++) {
 			var nextTile = neighbours[i];
 			if (!currentWord.Contains(nextTile)) {
@@ -104,10 +109,10 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 
 	private static string GetKey(int col, int row) => $"{col}-{row}";
 
-	private static string CreateWord(List<PositionedLetter> tiles) => string.Join("", tiles.Select(t => t.Letter));
+	private static string CreateWord(List<PositionedTile> tiles) => string.Join("", tiles.Select((t => ((LetterTile)t.Tile).Letter)));
 
-	private List<PositionedLetter> GetNeighbours(PositionedLetter tile, Direction direction) {
-		List<PositionedLetter> neighbours = [];
+	private List<PositionedTile> GetNeighbours(PositionedTile tile, Direction direction) {
+		List<PositionedTile> neighbours = [];
 
 		for (int i = 0; i < _board.Count; i++) {
 			var nextTile = _board[i];
@@ -115,10 +120,11 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 				neighbours.Add(nextTile);
 			}
 		}
+
 		return neighbours;
 	}
 
-	private static bool IsAdjacentAndInLine(PositionedLetter tile1, PositionedLetter tile2, Direction direction) {
+	private static bool IsAdjacentAndInLine(PositionedTile tile1, PositionedTile tile2, Direction direction) {
 		return direction switch {
 			Direction.Vertical   => tile1.Col == tile2.Col && (tile1.Row == tile2.Row - 1 || tile1.Row == tile2.Row + 1),
 			Direction.Horizontal => tile1.Row == tile2.Row && (tile1.Col == tile2.Col - 1 || tile1.Col == tile2.Col + 1),
@@ -127,7 +133,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 	}
 
 
-	private bool IsEndOfWord(PositionedLetter currentTile, Direction direction) {
+	private bool IsEndOfWord(PositionedTile currentTile, Direction direction) {
 		return direction switch {
 			Direction.Horizontal => !_board.Any(x => x.Col == currentTile.Col + 1 && x.Row == currentTile.Row),
 			Direction.Vertical   => !_board.Any(x => x.Row == currentTile.Row + 1 && x.Col == currentTile.Col),
@@ -135,7 +141,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 		};
 	}
 
-	private bool IsStartOfWord(PositionedLetter currentTile, Direction direction) {
+	private bool IsStartOfWord(PositionedTile currentTile, Direction direction) {
 		return direction switch {
 			Direction.Horizontal => !_board.Any(x => x.Col == currentTile.Col - 1 && x.Row == currentTile.Row),
 			Direction.Vertical   => !_board.Any(x => x.Row == currentTile.Row - 1 && x.Col == currentTile.Col),
@@ -148,6 +154,4 @@ public class ScrabbleWordFinder(IEnumerable<PositionedLetter> board, DictionaryO
 		Horizontal,
 		Vertical
 	}
-
-	public record PositionedLetter(char Letter, int Col, int Row);
 }
