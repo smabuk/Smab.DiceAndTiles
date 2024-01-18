@@ -1,17 +1,17 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public partial class ScrabbleDice : IScrabbleDice
+public partial class ScrabbleDice
 {
 	private static readonly List<LetterDie> s_letterDice =
 	[
-		new LetterDie([ ("A", 1), ("E", 1), ("I",  1), ("O", 1), ("U",  1), ("Y", 4) ]) { Name = "AEIOUY1" },
-		new LetterDie([ ("A", 1), ("E", 1), ("I",  1), ("O", 1), ("U",  1), ("Y", 4) ]) { Name = "AEIOUY2" },
-		new LetterDie([ ("A", 1), ("E", 1), ("I",  1), ("L", 1), ("O",  1), ("#", 0) ]) { Name = "AEILO#"  },
-		new LetterDie([ ("B", 3), ("F", 4), ("H",  4), ("N", 1), ("W",  4), ("#", 0) ]) { Name = "BFHNW#"  },
-		new LetterDie([ ("C", 3), ("D", 2), ("G",  2), ("T", 1), ("V",  4), ("#", 0) ]) { Name = "CDGTV#"  },
-		new LetterDie([ ("J", 8), ("K", 5), ("Q", 10), ("X", 8), ("Z", 10), ("#", 0) ]) { Name = "JKQXZ#"  },
-		new LetterDie([ ("M", 3), ("N", 1), ("P",  3), ("R", 1), ("S",  1), ("#", 0) ]) { Name = "MNPRS#"  },
-	];																					   
+		new([ ("A", 1), ("E", 1), ("I",  1), ("O", 1), ("U",  1), ("Y", 4) ]) { Name = "AEIOUY1" },
+		new([ ("A", 1), ("E", 1), ("I",  1), ("O", 1), ("U",  1), ("Y", 4) ]) { Name = "AEIOUY2" },
+		new([ ("A", 1), ("E", 1), ("I",  1), ("L", 1), ("O",  1), ("#", 0) ]),
+		new([ ("B", 3), ("F", 4), ("H",  4), ("N", 1), ("W",  4), ("#", 0) ]),
+		new([ ("C", 3), ("D", 2), ("G",  2), ("T", 1), ("V",  4), ("#", 0) ]),
+		new([ ("J", 8), ("K", 5), ("Q", 10), ("X", 8), ("Z", 10), ("#", 0) ]),
+		new([ ("M", 3), ("N", 1), ("P",  3), ("R", 1), ("S",  1), ("#", 0) ]),
+	];
 
 	public List<LetterDie> Dice { get; set; } = new(s_letterDice);
 	public int NoOfDice => Dice.Count;

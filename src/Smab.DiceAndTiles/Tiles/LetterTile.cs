@@ -1,6 +1,6 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public record LetterTile(string Letter) : ITile
+public record LetterTile(string Letter) : Tile
 {
 	public LetterTile(char letter) : this(letter.ToString()) { }
 }

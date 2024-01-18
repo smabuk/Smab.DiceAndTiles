@@ -9,16 +9,16 @@ public class ScrabbleWordFinderTests
 	public void Board_Should_Have_Islands()
 	{
 		List<PositionedTile> board = [
-			new PositionedTile(new LetterTile('T'), 4, 3),
-			new PositionedTile(new LetterTile('H'), 5, 3),
-			new PositionedTile(new LetterTile('I'), 6, 3),
-			new PositionedTile(new LetterTile('S'), 7, 3),
+			new PositionedTile(new ScrabbleTile('T', 1), 4, 3),
+			new PositionedTile(new ScrabbleTile('H', 4), 5, 3),
+			new PositionedTile(new ScrabbleTile('I', 1), 6, 3),
+			new PositionedTile(new ScrabbleTile('S', 1), 7, 3),
 			
-			new PositionedTile(new LetterTile('I'), 4, 2),
+			new PositionedTile(new ScrabbleTile('I', 1), 4, 2),
 
-			new PositionedTile(new LetterTile('B'), 1, 1),
-			new PositionedTile(new LetterTile('A'), 2, 1),
-			new PositionedTile(new LetterTile('D'), 3, 1),
+			new PositionedTile(new ScrabbleTile('B', 3), 1, 1),
+			new PositionedTile(new ScrabbleTile('A', 1), 2, 1),
+			new PositionedTile(new ScrabbleTile('D', 2), 3, 1),
 		];
 
 		ScrabbleWordFinder swf = new(board);

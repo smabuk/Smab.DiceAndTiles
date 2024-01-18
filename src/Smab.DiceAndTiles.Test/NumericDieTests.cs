@@ -39,10 +39,19 @@ public class NumericDieTests
 	[InlineData(0)]
 	public void Create_WithZeroOrNegativeFaces_ArgumentOutOfRangeException(int noOfFaces)
 	{
+#pragma warning disable CA1806 // Do not ignore method results
 		void actual() => new NumericDie(noOfFaces);
+#pragma warning restore CA1806 // Do not ignore method results
 
 		_ = Assert.Throws<ArgumentOutOfRangeException>(actual);
 	}
 
-
+	[Fact]
+	public void Create_Doubling_Die()
+	{
+		int[] values = [2, 4, 8, 16, 32, 64];
+		NumericDie actual = new NumericDie(values);
+		actual.NoOfFaces.ShouldBe(6);
+		actual.Faces.Select(face => face.Value).ShouldBe(values, ignoreOrder: true);
+	}
 }

@@ -4,156 +4,156 @@ public class BoggleDice
 {
 	private static readonly List<LetterDie> s_Dice_Classic4x4 =
 	[
-		new LetterDie([ "A", "A", "C", "I", "O", "T" ]) { Name = "AACIOT" },
-		new LetterDie([ "A", "B", "I", "L", "T", "Y" ]) { Name = "ABILTY" },
-		new LetterDie([ "A", "B", "J", "M", "O", "Qu" ]) { Name = "ABJMOQu" },
-		new LetterDie([ "A", "C", "D", "E", "M", "P" ]) { Name = "ACDEMP" },
+		new([ "A", "A", "C", "I", "O", "T" ]),
+		new([ "A", "B", "I", "L", "T", "Y" ]),
+		new([ "A", "B", "J", "M", "O", "Qu" ]),
+		new([ "A", "C", "D", "E", "M", "P" ]),
 
-		new LetterDie([ "A", "C", "E", "L", "R", "S" ]) { Name = "ACELRS" },
-		new LetterDie([ "A", "D", "E", "N", "V", "Z" ]) { Name = "ADENVZ" },
-		new LetterDie([ "A", "H", "M", "O", "R", "S" ]) { Name = "AHMORS" },
-		new LetterDie([ "B", "I", "F", "O", "R", "X" ]) { Name = "BIFORX" },
+		new([ "A", "C", "E", "L", "R", "S" ]),
+		new([ "A", "D", "E", "N", "V", "Z" ]),
+		new([ "A", "H", "M", "O", "R", "S" ]),
+		new([ "B", "I", "F", "O", "R", "X" ]),
 
-		new LetterDie([ "D", "E", "N", "O", "S", "W" ]) { Name = "DENOSW" },
-		new LetterDie([ "D", "K", "N", "O", "T", "U" ]) { Name = "DKNOTU" },
-		new LetterDie([ "E", "E", "F", "H", "I", "Y" ]) { Name = "EEFHIY" },
-		new LetterDie([ "E", "G", "K", "L", "U", "Y" ]) { Name = "EGKLUY" },
+		new([ "D", "E", "N", "O", "S", "W" ]),
+		new([ "D", "K", "N", "O", "T", "U" ]),
+		new([ "E", "E", "F", "H", "I", "Y" ]),
+		new([ "E", "G", "K", "L", "U", "Y" ]),
 
-		new LetterDie([ "E", "G", "I", "N", "T", "V" ]) { Name = "EGINTV" },
-		new LetterDie([ "E", "H", "I", "N", "P", "S" ]) { Name = "EHINPS" },
-		new LetterDie([ "E", "L", "P", "S", "T", "U" ]) { Name = "ELPSTU" },
-		new LetterDie([ "G", "I", "L", "R", "U", "W" ]) { Name = "GILRUW" }
+		new([ "E", "G", "I", "N", "T", "V" ]),
+		new([ "E", "H", "I", "N", "P", "S" ]),
+		new([ "E", "L", "P", "S", "T", "U" ]),
+		new([ "G", "I", "L", "R", "U", "W" ]),
 	];
 
 	private static readonly List<LetterDie> s_Dice_New4x4 =
 	[
-		new LetterDie([ "A", "A", "E", "E", "G", "N" ]) { Name = "AAEEGN" },
-		new LetterDie([ "A", "B", "B", "J", "O", "O" ]) { Name = "ABBJOO" },
-		new LetterDie([ "A", "C", "H", "O", "P", "S" ]) { Name = "ACHOPS" },
-		new LetterDie([ "A", "F", "F", "K", "P", "S" ]) { Name = "AFFKPS" },
-		new LetterDie([ "A", "O", "O", "T", "T", "W" ]) { Name = "AOOTTW" },
-		new LetterDie([ "C", "I", "M", "O", "T", "U" ]) { Name = "CIMOTU" },
-		new LetterDie([ "D", "E", "I", "L", "R", "X" ]) { Name = "DEILRX" },
-		new LetterDie([ "D", "E", "L", "R", "V", "Y" ]) { Name = "DELRVY" },
-		new LetterDie([ "D", "I", "S", "T", "T", "Y" ]) { Name = "DISTTY" },
-		new LetterDie([ "E", "E", "G", "H", "N", "W" ]) { Name = "EEGHNW" },
-		new LetterDie([ "E", "E", "I", "N", "S", "U" ]) { Name = "EEINSU" },
-		new LetterDie([ "E", "H", "R", "T", "V", "W" ]) { Name = "EHRTVW" },
-		new LetterDie([ "E", "I", "O", "S", "S", "T" ]) { Name = "EIOSST" },
-		new LetterDie([ "E", "L", "R", "T", "T", "Y" ]) { Name = "ELRTTY" },
-		new LetterDie([ "H", "I", "M", "N", "U", "Qu" ]) { Name = "HIMNUQu" },
-		new LetterDie([ "H", "L", "N", "N", "R", "Z" ]) { Name = "HLNNRZ" }
+		new([ "A", "A", "E", "E", "G", "N" ]),
+		new([ "A", "B", "B", "J", "O", "O" ]),
+		new([ "A", "C", "H", "O", "P", "S" ]),
+		new([ "A", "F", "F", "K", "P", "S" ]),
+		new([ "A", "O", "O", "T", "T", "W" ]),
+		new([ "C", "I", "M", "O", "T", "U" ]),
+		new([ "D", "E", "I", "L", "R", "X" ]),
+		new([ "D", "E", "L", "R", "V", "Y" ]),
+		new([ "D", "I", "S", "T", "T", "Y" ]),
+		new([ "E", "E", "G", "H", "N", "W" ]),
+		new([ "E", "E", "I", "N", "S", "U" ]),
+		new([ "E", "H", "R", "T", "V", "W" ]),
+		new([ "E", "I", "O", "S", "S", "T" ]),
+		new([ "E", "L", "R", "T", "T", "Y" ]),
+		new([ "H", "I", "M", "N", "U", "Qu" ]),
+		new([ "H", "L", "N", "N", "R", "Z" ]),
 	];
 
 	private static readonly List<LetterDie> s_Dice_BigBoggleOriginal =
 	[
-		new LetterDie([ "A", "A", "A", "F", "R", "S" ]) { Name = "AAAFRS" },
-		new LetterDie([ "A", "A", "E", "E", "E", "E" ]) { Name = "AAEEEE" },
-		new LetterDie([ "A", "A", "F", "I", "R", "S" ]) { Name = "AAFIRS" },
-		new LetterDie([ "A", "D", "E", "N", "N", "N" ]) { Name = "ADENNN" },
-		new LetterDie([ "A", "E", "E", "E", "E", "M" ]) { Name = "AEEEEM" },
+		new([ "A", "A", "A", "F", "R", "S" ]),
+		new([ "A", "A", "E", "E", "E", "E" ]),
+		new([ "A", "A", "F", "I", "R", "S" ]),
+		new([ "A", "D", "E", "N", "N", "N" ]),
+		new([ "A", "E", "E", "E", "E", "M" ]),
 
-		new LetterDie([ "A", "E", "E", "G", "M", "U" ]) { Name = "AEEGMU" },
-		new LetterDie([ "A", "E", "G", "M", "N", "N" ]) { Name = "AEGMNN" },
-		new LetterDie([ "A", "F", "I", "R", "S", "Y" ]) { Name = "AFIRSY" },
-		new LetterDie([ "B", "J", "K", "Qu", "X", "Z" ]) { Name = "BJKQuXZ" },
-		new LetterDie([ "C", "C", "E", "N", "S", "T" ]) { Name = "CCENST" },
+		new([ "A", "E", "E", "G", "M", "U" ]),
+		new([ "A", "E", "G", "M", "N", "N" ]),
+		new([ "A", "F", "I", "R", "S", "Y" ]),
+		new([ "B", "J", "K", "Qu", "X", "Z" ]),
+		new([ "C", "C", "E", "N", "S", "T" ]),
 
-		new LetterDie([ "C", "E", "I", "I", "L", "T" ]) { Name = "CEIILT" },
-		new LetterDie([ "C", "E", "I", "L", "P", "T" ]) { Name = "CEILPT" },
-		new LetterDie([ "C", "E", "I", "P", "S", "T" ]) { Name = "CEIPST" },
-		new LetterDie([ "D", "D", "H", "N", "O", "T" ]) { Name = "DDHNOT" },
-		new LetterDie([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR" },
+		new([ "C", "E", "I", "I", "L", "T" ]) ,
+		new([ "C", "E", "I", "L", "P", "T" ]) ,
+		new([ "C", "E", "I", "P", "S", "T" ]) ,
+		new([ "D", "D", "H", "N", "O", "T" ]) ,
+		new([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR1" } ,
 
-		new LetterDie([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR2" },
-		new LetterDie([ "D", "H", "L", "N", "O", "R" ]) { Name = "DHLNOR" },
-		new LetterDie([ "E", "I", "I", "I", "T", "T" ]) { Name = "EIIITT" },
-		new LetterDie([ "E", "M", "O", "T", "T", "T" ]) { Name = "EMOTTT" },
-		new LetterDie([ "E", "N", "S", "S", "S", "U" ]) { Name = "ENSSSU" },
+		new([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR2" },
+		new([ "D", "H", "L", "N", "O", "R" ]),
+		new([ "E", "I", "I", "I", "T", "T" ]),
+		new([ "E", "M", "O", "T", "T", "T" ]),
+		new([ "E", "N", "S", "S", "S", "U" ]),
 
-		new LetterDie([ "F", "I", "P", "R", "S", "Y" ]) { Name = "FIPRSY" },
-		new LetterDie([ "G", "O", "R", "R", "V", "W" ]) { Name = "GORRVW" },
-		new LetterDie([ "I", "P", "R", "R", "R", "Y" ]) { Name = "IPRRRY" },
-		new LetterDie([ "N", "O", "O", "T", "U", "W" ]) { Name = "NOOTUW" },
-		new LetterDie([ "O", "O", "O", "T", "T", "U" ]) { Name = "OOOTTU" }
+		new([ "F", "I", "P", "R", "S", "Y" ]),
+		new([ "G", "O", "R", "R", "V", "W" ]),
+		new([ "I", "P", "R", "R", "R", "Y" ]),
+		new([ "N", "O", "O", "T", "U", "W" ]),
+		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
 	private static readonly List<LetterDie> s_Dice_BigBoggleDeluxe =
 	[
-		new LetterDie([ "A", "A", "A", "F", "R", "S" ]) { Name = "AAAFRS" },
-		new LetterDie([ "A", "A", "E", "E", "E", "E" ]) { Name = "AAEEEE" },
-		new LetterDie([ "A", "A", "F", "I", "R", "S" ]) { Name = "AAFIRS" },
-		new LetterDie([ "A", "D", "E", "N", "N", "N" ]) { Name = "ADENNN" },
-		new LetterDie([ "A", "E", "E", "E", "E", "M" ]) { Name = "AEEEEM" },
+		new([ "A", "A", "A", "F", "R", "S" ]),
+		new([ "A", "A", "E", "E", "E", "E" ]),
+		new([ "A", "A", "F", "I", "R", "S" ]),
+		new([ "A", "D", "E", "N", "N", "N" ]),
+		new([ "A", "E", "E", "E", "E", "M" ]),
 
-		new LetterDie([ "A", "E", "E", "G", "M", "U" ]) { Name = "AEEGMU" },
-		new LetterDie([ "A", "E", "G", "M", "N", "N" ]) { Name = "AEGMNN" },
-		new LetterDie([ "A", "F", "I", "R", "S", "Y" ]) { Name = "AFIRSY" },
-		new LetterDie([ "B", "J", "K", "Qu", "X", "Z" ]) { Name = "BJKQuXZ" },
-		new LetterDie([ "C", "C", "N", "S", "T", "W" ]) { Name = "CCNSTW" },
+		new([ "A", "E", "E", "G", "M", "U" ]),
+		new([ "A", "E", "G", "M", "N", "N" ]),
+		new([ "A", "F", "I", "R", "S", "Y" ]),
+		new([ "B", "J", "K", "Qu", "X", "Z" ]),
+		new([ "C", "C", "N", "S", "T", "W" ]),
 
-		new LetterDie([ "C", "E", "I", "I", "L", "T" ]) { Name = "CEIILT" },
-		new LetterDie([ "C", "E", "I", "L", "P", "T" ]) { Name = "CEILPT" },
-		new LetterDie([ "C", "E", "I", "P", "S", "T" ]) { Name = "CEIPST" },
-		new LetterDie([ "D", "H", "H", "N", "O", "T" ]) { Name = "DHHNOT" },
-		new LetterDie([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR" },
+		new([ "C", "E", "I", "I", "L", "T" ]),
+		new([ "C", "E", "I", "L", "P", "T" ]),
+		new([ "C", "E", "I", "P", "S", "T" ]),
+		new([ "D", "H", "H", "N", "O", "T" ]),
+		new([ "D", "H", "H", "L", "O", "R" ]),
 
-		new LetterDie([ "D", "H", "L", "N", "O", "R" ]) { Name = "DHLNOR" },
-		new LetterDie([ "D", "D", "L", "N", "O", "R" ]) { Name = "DDLNOR" },
-		new LetterDie([ "E", "I", "I", "I", "T", "T" ]) { Name = "EIIITT" },
-		new LetterDie([ "E", "M", "O", "T", "T", "T" ]) { Name = "EMOTTT" },
-		new LetterDie([ "E", "N", "S", "S", "S", "U" ]) { Name = "ENSSSU" },
+		new([ "D", "H", "L", "N", "O", "R" ]),
+		new([ "D", "D", "L", "N", "O", "R" ]),
+		new([ "E", "I", "I", "I", "T", "T" ]),
+		new([ "E", "M", "O", "T", "T", "T" ]),
+		new([ "E", "N", "S", "S", "S", "U" ]),
 
-		new LetterDie([ "F", "I", "P", "R", "S", "Y" ]) { Name = "FIPRSY" },
-		new LetterDie([ "G", "O", "R", "R", "V", "W" ]) { Name = "GORRVW" },
-		new LetterDie([ "H", "I", "P", "R", "R", "Y" ]) { Name = "HIPRRY" },
-		new LetterDie([ "N", "O", "O", "T", "U", "W" ]) { Name = "NOOTUW" },
-		new LetterDie([ "O", "O", "O", "T", "T", "U" ]) { Name = "OOOTTU" }
+		new([ "F", "I", "P", "R", "S", "Y" ]),
+		new([ "G", "O", "R", "R", "V", "W" ]),
+		new([ "H", "I", "P", "R", "R", "Y" ]),
+		new([ "N", "O", "O", "T", "U", "W" ]),
+		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
 	private static readonly List<LetterDie> s_Dice_SuperBigBoggle2012 =
 	[
-		new LetterDie([ "A", "A", "A", "F", "R", "S" ]) { Name = "AAAFRS" },
-		new LetterDie([ "A", "A", "E", "E", "E", "E" ]) { Name = "AAEEEE" },
-		new LetterDie([ "A", "A", "E", "E", "O", "O" ]) { Name = "AAEEOO" },
-		new LetterDie([ "A", "A", "F", "I", "R", "S" ]) { Name = "AAFIRS" },
-		new LetterDie([ "A", "B", "D", "E", "I", "O" ]) { Name = "ABDEIO" },
-		new LetterDie([ "A", "D", "E", "N", "N", "N" ]) { Name = "ADENNN" },
+		new([ "A", "A", "A", "F", "R", "S" ]),
+		new([ "A", "A", "E", "E", "E", "E" ]),
+		new([ "A", "A", "E", "E", "O", "O" ]),
+		new([ "A", "A", "F", "I", "R", "S" ]),
+		new([ "A", "B", "D", "E", "I", "O" ]),
+		new([ "A", "D", "E", "N", "N", "N" ]),
 
-		new LetterDie([ "A", "E", "E", "E", "E", "M" ]) { Name = "AEEEEM" },
-		new LetterDie([ "A", "E", "E", "G", "M", "U" ]) { Name = "AEEGMU" },
-		new LetterDie([ "A", "E", "G", "M", "N", "N" ]) { Name = "AEGMNN" },
-		new LetterDie([ "A", "E", "I", "L", "M", "N" ]) { Name = "AEILMN" },
-		new LetterDie([ "A", "E", "I", "N", "O", "U" ]) { Name = "AEINOU" },
-		new LetterDie([ "A", "F", "I", "R", "S", "Y" ]) { Name = "AFIRSY" },
+		new([ "A", "E", "E", "E", "E", "M" ]),
+		new([ "A", "E", "E", "G", "M", "U" ]),
+		new([ "A", "E", "G", "M", "N", "N" ]),
+		new([ "A", "E", "I", "L", "M", "N" ]),
+		new([ "A", "E", "I", "N", "O", "U" ]),
+		new([ "A", "F", "I", "R", "S", "Y" ]),
 
-		new LetterDie([ "An", "Er", "He", "In", "Qu", "Th" ]) { Name = "AnErHeInQuTh" },
-		new LetterDie([ "B", "B", "J", "K", "X", "Z" ]) { Name = "BBJKXZ" },
-		new LetterDie([ "C", "C", "E", "N", "S", "T" ]) { Name = "CCENST" },
-		new LetterDie([ "C", "D", "D", "L", "N", "N" ]) { Name = "CDDLNN" },
-		new LetterDie([ "C", "E", "I", "I", "T", "T" ]) { Name = "CEIITT" },
-		new LetterDie([ "C", "E", "I", "P", "S", "T" ]) { Name = "CEIPST" },
+		new([ "An", "Er", "He", "In", "Qu", "Th" ]),
+		new([ "B", "B", "J", "K", "X", "Z" ]),
+		new([ "C", "C", "E", "N", "S", "T" ]),
+		new([ "C", "D", "D", "L", "N", "N" ]),
+		new([ "C", "E", "I", "I", "T", "T" ]),
+		new([ "C", "E", "I", "P", "S", "T" ]),
 
-		new LetterDie([ "C", "F", "G", "N", "U", "Y" ]) { Name = "CFGNUY" },
-		new LetterDie([ "D", "D", "H", "N", "O", "T" ]) { Name = "DDHNOT" },
-		new LetterDie([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR" },
-		new LetterDie([ "D", "H", "H", "N", "O", "W" ]) { Name = "DHHNOW" },
-		new LetterDie([ "D", "H", "L", "N", "O", "R" ]) { Name = "DHLNOR" },
-		new LetterDie([ "E", "H", "I", "L", "R", "S" ]) { Name = "EHILRS" },
+		new([ "C", "F", "G", "N", "U", "Y" ]),
+		new([ "D", "D", "H", "N", "O", "T" ]),
+		new([ "D", "H", "H", "L", "O", "R" ]),
+		new([ "D", "H", "H", "N", "O", "W" ]),
+		new([ "D", "H", "L", "N", "O", "R" ]),
+		new([ "E", "H", "I", "L", "R", "S" ]),
 
-		new LetterDie([ "E", "I", "I", "L", "S", "T" ]) { Name = "EIILST" },
-		new LetterDie([ "E", "I", "L", "P", "S", "T" ]) { Name = "EILPST" },
-		new LetterDie([ "E", "I", "O", "#", "#", "#" ]) { Name = "EIO###" },
-		new LetterDie([ "E", "M", "T", "T", "T", "O" ]) { Name = "EMTTTO" },
-		new LetterDie([ "E", "N", "S", "S", "S", "U" ]) { Name = "ENSSSU" },
-		new LetterDie([ "G", "O", "R", "R", "V", "W" ]) { Name = "GORRVW" },
+		new([ "E", "I", "I", "L", "S", "T" ]),
+		new([ "E", "I", "L", "P", "S", "T" ]),
+		new([ "E", "I", "O", "#", "#", "#" ]),
+		new([ "E", "M", "T", "T", "T", "O" ]),
+		new([ "E", "N", "S", "S", "S", "U" ]),
+		new([ "G", "O", "R", "R", "V", "W" ]),
 
-		new LetterDie([ "H", "I", "R", "S", "T", "V" ]) { Name = "HIRSTV" },
-		new LetterDie([ "H", "O", "P", "R", "S", "T" ]) { Name = "HOPRST" },
-		new LetterDie([ "I", "P", "R", "S", "Y", "Y" ]) { Name = "IPRSYY" },
-		new LetterDie([ "J", "K", "Qu", "W", "X", "Z" ]) { Name = "JKQuWXZ" },
-		new LetterDie([ "N", "O", "O", "T", "U", "W" ]) { Name = "NOOTUW" },
-		new LetterDie([ "O", "O", "O", "T", "T", "U" ]) { Name = "OOOTTU" }
+		new([ "H", "I", "R", "S", "T", "V" ]),
+		new([ "H", "O", "P", "R", "S", "T" ]),
+		new([ "I", "P", "R", "S", "Y", "Y" ]),
+		new([ "J", "K", "Qu", "W", "X", "Z" ]),
+		new([ "N", "O", "O", "T", "U", "W" ]),
+		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
 	public BoggleDice(BoggleType type = BoggleType.Classic4x4)
@@ -182,14 +182,14 @@ public class BoggleDice
 		BigBoggleOriginal,
 		BigBoggleChallenge,
 		BigBoggleDeluxe,
-		SuperBigBoggle2012
+		SuperBigBoggle2012,
 	}
 
 	public enum CheckResult
 	{
 		Success,
 		Unplayable,
-		Misspelt
+		Misspelt,
 	}
 
 	public List<PositionedDie> Board { get; private set; } = [];
@@ -216,26 +216,21 @@ public class BoggleDice
 
 	private List<PositionedDie> ShakeAndCreateBoard()
 	{
-		List<LetterDie>       bag = new(Dice);
+		LetterDie[] bag = [..Dice];
+		Random.Shared.Shuffle(bag);
+
 		List<PositionedDie> board = [];
 
-		Board      = [];
-		Random rnd = new();
-
-		int boardIndex = 0;
-		do
+		for (int boardIndex = 0; boardIndex < bag.Length; boardIndex++)
 		{
-			int bagIndex = rnd.Next(0, bag.Count);
-			bag[bagIndex].Roll();
-			if (bag[bagIndex].FaceValue.Name == "#")
+			LetterDie die = bag[boardIndex];
+			die.Roll();
+			if (die.FaceValue.Name == "#")
 			{
-				bag[bagIndex].Faces[bag[bagIndex].UpperFace] = bag[bagIndex].FaceValue with { Display = "■" };
+				die.Faces[die.UpperFace] = die.FaceValue with { Display = "■" };
 			}
-
-			board.Add(new PositionedDie(bag[bagIndex] with { Orientation = rnd.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));
-			_ = bag.Remove(bag[bagIndex]);
-			boardIndex++;
-		} while (bag.Count > 0);
+			board.Add(new PositionedDie(die with { Orientation = Random.Shared.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));
+		}
 
 		return board;
 	}
@@ -245,12 +240,9 @@ public class BoggleDice
 		CheckResult reason = CheckResult.Success;
 		List<PositionedDie> validSlots = SearchBoard(word);
 		int score = 0;
-		if (validSlots.Count != 0)
-		{
+		if (validSlots.Count != 0) {
 			score = ScoreWord(word);
-		}
-		else
-		{
+		} else {
 			reason = CheckResult.Unplayable;
 		}
 

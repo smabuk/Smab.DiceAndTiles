@@ -1,5 +1,3 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public interface ITile
-{
-}
+public abstract record Tile;

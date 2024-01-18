@@ -36,4 +36,12 @@ public class LetterDieTests
 
 	}
 
+	[Theory]
+	[InlineData(new string[] { "A", "B", "C", "D" }, "ABCD")]
+	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, "ABCDQu")]
+	public void LetterDie_Name_Is_Set_Automatically(string[] faces, string expected)
+	{
+		LetterDie actual = new(faces);
+		Assert.Equal(expected, actual.Name);
+	}
 }

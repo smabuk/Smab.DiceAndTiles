@@ -8,18 +8,18 @@ public class QLessDice
 
 	private static readonly List<LetterDie> s_letterDice =
 	[
-		new LetterDie([ "M", "M", "L", "L", "B", "Y" ]) { Name = "MMLLBY" },
-		new LetterDie([ "V", "F", "G", "K", "P", "P" ]) { Name = "VFGKPP" },
-		new LetterDie([ "H", "H", "N", "N", "R", "R" ]) { Name = "HHNNRR" },
-		new LetterDie([ "D", "F", "R", "L", "L", "W" ]) { Name = "DFRLLW" },
-		new LetterDie([ "R", "R", "D", "L", "G", "G" ]) { Name = "RRDLGG" },
-		new LetterDie([ "X", "K", "B", "S", "Z", "N" ]) { Name = "XKBSZN" },
-		new LetterDie([ "W", "H", "H", "T", "T", "P" ]) { Name = "WHHTTP" },
-		new LetterDie([ "C", "C", "B", "T", "J", "D" ]) { Name = "CCBTJD" },
-		new LetterDie([ "C", "C", "M", "T", "T", "S" ]) { Name = "CCMTTS" },
-		new LetterDie([ "O", "I", "I", "N", "N", "Y" ]) { Name = "OIINNY" },
-		new LetterDie([ "A", "E", "I", "O", "U", "U" ]) { Name = "AEIOUU" },
-		new LetterDie([ "A", "A", "E", "E", "O", "O" ]) { Name = "AAEEOO" },
+		new([ "M", "M", "L", "L", "B", "Y" ]),
+		new([ "V", "F", "G", "K", "P", "P" ]),
+		new([ "H", "H", "N", "N", "R", "R" ]),
+		new([ "D", "F", "R", "L", "L", "W" ]),
+		new([ "R", "R", "D", "L", "G", "G" ]),
+		new([ "X", "K", "B", "S", "Z", "N" ]),
+		new([ "W", "H", "H", "T", "T", "P" ]),
+		new([ "C", "C", "B", "T", "J", "D" ]),
+		new([ "C", "C", "M", "T", "T", "S" ]),
+		new([ "O", "I", "I", "N", "N", "Y" ]),
+		new([ "A", "E", "I", "O", "U", "U" ]),
+		new([ "A", "A", "E", "E", "O", "O" ]),
 	];
 
 	public QLessDice()
@@ -29,22 +29,18 @@ public class QLessDice
 
 	public void ShakeAndFillRack()
 	{
-		List<LetterDie> bag = new(Dice);
-
 		Rack = [];
 
-		do
-		{
-			int i = Random.Shared.Next(0, bag.Count);
-			bag[i].Roll();
-			bag[i].Orientation = Random.Shared.Next(0, 4) * 90;
-			Rack.Add(bag[i]);
-			_ = bag.Remove(bag[i]);
-		} while (bag.Count > 0);
+		LetterDie[] bag = [.. Dice];
+		Random.Shared.Shuffle(bag);
 
-		for (int i = 0; i < Rack.Count; i++)
+		for (int i = 0; i < bag.Length; i++)
 		{
-			Board.Add(new PositionedDie(Rack[i], 6, -1, i));
+			LetterDie die = bag[i];
+			die.Roll();
+			die.Orientation = Random.Shared.Next(0, 4) * 90;
+			Rack.Add(die);
+			Board.Add(new PositionedDie(die, 6, -1, i));
 		}
 	}
 
