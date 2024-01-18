@@ -26,4 +26,11 @@ public class DictionaryOfWordsTests
 		bool actual = _dictionaryOfWords.IsWord(word);
 		Assert.False(actual);
 	}
+
+	[Fact]
+	public void Dictionary_Has_8_Words()
+	{
+		Assert.True(_dictionaryOfWords.HasWords);
+		Assert.Equal(8, _dictionaryOfWords.Count);
+	}
 }
