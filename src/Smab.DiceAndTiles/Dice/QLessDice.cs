@@ -40,7 +40,6 @@ public class QLessDice
 			die.Roll();
 			die.Orientation = Random.Shared.Next(0, 4) * 90;
 			Rack.Add(die);
-			Board.Add(new PositionedDie(die, 6, -1, i));
 		}
 	}
 
