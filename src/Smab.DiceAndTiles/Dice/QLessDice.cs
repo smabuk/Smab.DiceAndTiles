@@ -107,21 +107,23 @@ public class QLessDice
 		return new Errors(errorDice, errorReasons);
 	}
 
-	public bool PlaceOnBoard(Die die, int col, int row)
+	public bool PlaceOnBoard(Die die, int col, int row) => PlaceOnBoard(die.Name, col, row);
+	public bool PlaceOnBoard(string name, int col, int row)
 	{
-		PositionedDie positionedDie = diceDictionary[die.Name];
+		PositionedDie positionedDie = diceDictionary[name];
 		if (Board.Any(d => d.Row == row && d.Col == col)) {
 			return false;
 		}
 
 		positionedDie = positionedDie with { Col = col, Row = row };
-		diceDictionary[die.Name] = positionedDie;
+		diceDictionary[name] = positionedDie;
 		return true;
 	}
 
-	public bool PlaceOnRack(Die die, int col = ANY_COL)
+	public bool PlaceOnRack(Die die, int col = ANY_COL) => PlaceOnRack(die.Name, col);
+	public bool PlaceOnRack(string name, int col = ANY_COL)
 	{
-		PositionedDie positionedDie = diceDictionary[die.Name];
+		PositionedDie positionedDie = diceDictionary[name];
 		if (col != ANY_COL && Rack.Any(d => d.Col == col)) {
 			return false;
 		}
@@ -135,7 +137,7 @@ public class QLessDice
 		}
 
 		positionedDie = positionedDie with { Col = col, Row = RACK_ROW };
-		diceDictionary[die.Name] = positionedDie;
+		diceDictionary[name] = positionedDie;
 		return true;
 	}
 
