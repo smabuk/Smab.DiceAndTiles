@@ -8,7 +8,7 @@ public class QLessDice
 	private Dictionary<string, PositionedDie> diceDictionary = [];
 	private readonly DictionaryOfWords dictionaryOfWords;
 
-	private static readonly List<LetterDie> s_letterDice =
+	private readonly List<LetterDie> diceSet =
 	[
 		new([ "M", "M", "L", "L", "B", "Y" ]),
 		new([ "V", "F", "G", "K", "P", "P" ]),
@@ -26,6 +26,7 @@ public class QLessDice
 
 	public QLessDice(DictionaryOfWords? dictionary = null)
 	{
+		Dice = [.. diceSet];
 		ShakeAndFillRack();
 		dictionaryOfWords = dictionary ?? new();
 	}
@@ -44,7 +45,7 @@ public class QLessDice
 	}
 
 
-	public List<LetterDie>     Dice  { get; set; } = new(s_letterDice);
+	public List<LetterDie>     Dice  { get; set; }
 
 	public List<PositionedDie> Board => [.. diceDictionary.Values.Where(d => d.Row != RACK_ROW)];
 	public List<PositionedDie> Rack  => [.. diceDictionary.Values.Where(d => d.Row == RACK_ROW)];

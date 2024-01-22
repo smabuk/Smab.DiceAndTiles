@@ -2,7 +2,7 @@
 
 public class BoggleDice
 {
-	private static readonly List<LetterDie> s_Dice_Classic4x4 =
+	private readonly List<LetterDie> _Dice_Classic4x4 =
 	[
 		new([ "A", "A", "C", "I", "O", "T" ]),
 		new([ "A", "B", "I", "L", "T", "Y" ]),
@@ -25,7 +25,7 @@ public class BoggleDice
 		new([ "G", "I", "L", "R", "U", "W" ]),
 	];
 
-	private static readonly List<LetterDie> s_Dice_New4x4 =
+	private readonly List<LetterDie> _Dice_New4x4 =
 	[
 		new([ "A", "A", "E", "E", "G", "N" ]),
 		new([ "A", "B", "B", "J", "O", "O" ]),
@@ -45,7 +45,7 @@ public class BoggleDice
 		new([ "H", "L", "N", "N", "R", "Z" ]),
 	];
 
-	private static readonly List<LetterDie> s_Dice_BigBoggleOriginal =
+	private readonly List<LetterDie> _Dice_BigBoggleOriginal =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),
@@ -78,7 +78,7 @@ public class BoggleDice
 		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
-	private static readonly List<LetterDie> s_Dice_BigBoggleDeluxe =
+	private readonly List<LetterDie> _Dice_BigBoggleDeluxe =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),
@@ -111,7 +111,7 @@ public class BoggleDice
 		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
-	private static readonly List<LetterDie> s_Dice_SuperBigBoggle2012 =
+	private readonly List<LetterDie> _Dice_SuperBigBoggle2012 =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),
@@ -162,11 +162,11 @@ public class BoggleDice
 
 		BoardSize = (int)Math.Sqrt(Type switch
 		{
-			BoggleType.Classic4x4         => s_Dice_Classic4x4.Count,
-			BoggleType.New4x4             => s_Dice_New4x4.Count,
-			BoggleType.BigBoggleOriginal  => s_Dice_BigBoggleOriginal.Count,
-			BoggleType.BigBoggleDeluxe    => s_Dice_BigBoggleDeluxe.Count,
-			BoggleType.SuperBigBoggle2012 => s_Dice_SuperBigBoggle2012.Count,
+			BoggleType.Classic4x4         => _Dice_Classic4x4.Count,
+			BoggleType.New4x4             => _Dice_New4x4.Count,
+			BoggleType.BigBoggleOriginal  => _Dice_BigBoggleOriginal.Count,
+			BoggleType.BigBoggleDeluxe    => _Dice_BigBoggleDeluxe.Count,
+			BoggleType.SuperBigBoggle2012 => _Dice_SuperBigBoggle2012.Count,
 			_ => throw new NotImplementedException(),
 		});
 		BoardHeight = BoardSize;
@@ -201,11 +201,11 @@ public class BoggleDice
 
 	public List<LetterDie> Dice => Type switch
 	{
-		BoggleType.Classic4x4         => new(s_Dice_Classic4x4),
-		BoggleType.New4x4             => new(s_Dice_New4x4),
-		BoggleType.BigBoggleOriginal  => new(s_Dice_BigBoggleOriginal),
-		BoggleType.BigBoggleDeluxe    => new(s_Dice_BigBoggleDeluxe),
-		BoggleType.SuperBigBoggle2012 => new(s_Dice_SuperBigBoggle2012),
+		BoggleType.Classic4x4         => new(_Dice_Classic4x4),
+		BoggleType.New4x4             => new(_Dice_New4x4),
+		BoggleType.BigBoggleOriginal  => new(_Dice_BigBoggleOriginal),
+		BoggleType.BigBoggleDeluxe    => new(_Dice_BigBoggleDeluxe),
+		BoggleType.SuperBigBoggle2012 => new(_Dice_SuperBigBoggle2012),
 		_ => throw new NotImplementedException(),
 	};
 
