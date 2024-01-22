@@ -156,7 +156,9 @@ public class BoggleDice
 		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
-	public BoggleDice(BoggleType type = BoggleType.Classic4x4)
+	private readonly DictionaryOfWords dictionaryOfWords;
+
+	public BoggleDice(BoggleType type = BoggleType.Classic4x4, DictionaryOfWords? dictionary = null)
 	{
 		Type = type;
 
@@ -173,6 +175,7 @@ public class BoggleDice
 		BoardWidth  = BoardSize;
 
 		ShakeAndFillBoard();
+		dictionaryOfWords = dictionary ?? new();
 	}
 
 	public enum BoggleType
@@ -229,6 +232,7 @@ public class BoggleDice
 			{
 				die.Faces[die.UpperFace] = die.FaceValue with { Display = "■" };
 			}
+
 			board.Add(new PositionedDie(die with { Orientation = Random.Shared.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));
 		}
 
@@ -238,12 +242,18 @@ public class BoggleDice
 	public (int score, CheckResult reason) CheckAndScoreWord(string word)
 	{
 		CheckResult reason = CheckResult.Success;
+
 		List<PositionedDie> validSlots = SearchBoard(word);
 		int score = 0;
-		if (validSlots.Count != 0) {
-			score = ScoreWord(word);
-		} else {
+		if (validSlots.Count == 0) {
 			reason = CheckResult.Unplayable;
+		} else if (dictionaryOfWords.HasWords) {
+			reason = dictionaryOfWords.IsWord(word) ? CheckResult.Success : CheckResult.Misspelt;
+		}
+
+		if (reason == CheckResult.Success)
+		{
+			score = ScoreWord(word);
 		}
 
 		return (score, reason);
