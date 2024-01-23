@@ -44,11 +44,12 @@ public class QLessDice
 		}
 	}
 
-
 	public List<LetterDie>     Dice  { get; set; }
 
-	public List<PositionedDie> Board => [.. diceDictionary.Values.Where(d => d.Row != RACK_ROW)];
-	public List<PositionedDie> Rack  => [.. diceDictionary.Values.Where(d => d.Row == RACK_ROW)];
+	public IReadOnlyList<PositionedDie> Board => [.. diceDictionary.Values.Where(d => d.Row != RACK_ROW)];
+	public IReadOnlyList<PositionedDie> Rack  => [.. diceDictionary.Values.Where(d => d.Row == RACK_ROW)];
+
+	public bool HasDictionary => dictionaryOfWords.HasWords;
 
 	public Status GameStatus()
 	{
@@ -96,7 +97,7 @@ public class QLessDice
 				return new Win();
 			}
 
-			errorReasons |= ErrorReasons.Spelling;
+			errorReasons |= ErrorReasons.Misspelt;
 			foreach (List<PositionedTile> tiles in swf.InvalidWordsAsTiles) {
 				tiles.ForEach(t => errorDice.Add(new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row)));
 			}
@@ -153,6 +154,6 @@ public class QLessDice
 		MultipleBlocks  = 1,
 		TwoLetterWords  = 2,
 		MissingDice     = 4,
-		Spelling        = 8,
+		Misspelt        = 8,
 	}
 }

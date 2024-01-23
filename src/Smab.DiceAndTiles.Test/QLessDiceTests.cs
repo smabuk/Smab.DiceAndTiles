@@ -12,7 +12,7 @@ public class QLessDiceTests
 	}
 
 	[Fact]
-	public void Do_Not_Share_Dice()
+	public void Instances_Should_Not_Share_Dice()
 	{
 		QLessDice qLessDice1 = new();
 		string rack1 = string.Join("", qLessDice1.Rack.OrderBy(x => x.Die.Display).Select(x => x.Die.Display));

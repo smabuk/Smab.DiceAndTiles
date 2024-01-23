@@ -212,8 +212,7 @@ public class BoggleDice
 		_ => throw new NotImplementedException(),
 	};
 
-	public int NoOfDice        => Dice.Count;
-	public int NoOfDiceOnBoard => Board.Count;
+	public bool HasDictionary => dictionaryOfWords.HasWords;
 
 	public void ShakeAndFillBoard() => Board = ShakeAndCreateBoard();
 
