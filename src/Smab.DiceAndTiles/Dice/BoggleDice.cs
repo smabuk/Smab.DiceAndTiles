@@ -188,16 +188,21 @@ public class BoggleDice
 		SuperBigBoggle2012,
 	}
 
-	public enum CheckResult
+	public enum ScoreReason
 	{
 		Success,
-		Unplayable,
+		AlreadyPlayed,
 		Misspelt,
 		TooShort,
+		Unplayable,
 	}
 
 	public List<PositionedDie> Board { get; private set; } = [];
 	public BoggleType Type { get; init; }
+	
+	private List<WordScore> Words { get; set; } = [];
+	public IEnumerable<WordScore> WordScores => [.. Words];
+	public int Score => Words.Sum(w => w.Score);
 
 	public int BoardSize   { get; }
 	public int BoardHeight { get; }
@@ -219,6 +224,7 @@ public class BoggleDice
 
 	private List<PositionedDie> ShakeAndCreateBoard()
 	{
+		Words = [];
 		LetterDie[] bag = [..Dice];
 		Random.Shared.Shuffle(bag);
 
@@ -239,28 +245,33 @@ public class BoggleDice
 		return board;
 	}
 
-	public (int score, CheckResult reason) CheckAndScoreWord(string word)
+	public WordScore PlayWord(string word)
 	{
-		CheckResult reason = CheckResult.Success;
+		ScoreReason reason = ScoreReason.Success;
 
 		List<PositionedDie> validSlots = SearchBoard(word);
 		int score = 0;
 		if (validSlots.Count == 0) {
-			reason = CheckResult.Unplayable;
+			reason = ScoreReason.Unplayable;
 		} else if (dictionaryOfWords.HasWords) {
-			reason = dictionaryOfWords.IsWord(word) ? CheckResult.Success : CheckResult.Misspelt;
-		}
-
-		if (reason == CheckResult.Success)
-		{
-			score = ScoreWord(word);
-			if (score == 0)
+			reason = dictionaryOfWords.IsWord(word) ? ScoreReason.Success : ScoreReason.Misspelt;
+			if (reason == ScoreReason.Success)
 			{
-				reason = CheckResult.TooShort;
+				score = ScoreWord(word);
+				if (score == 0)
+				{
+					reason = ScoreReason.TooShort;
+				}
 			}
 		}
 
-		return (score, reason);
+		if (Words.Any(w => w.Word == word))
+		{
+			reason = ScoreReason.AlreadyPlayed;
+		}
+
+		Words.Add(new WordScore(word, score, reason));
+		return new WordScore(word, score, reason);
 	}
 
 	public int ScoreWord(string word)
@@ -302,7 +313,7 @@ public class BoggleDice
 	/// </summary>
 	/// <param name="word"></param>
 	/// <returns>Returns the first list of slots that make up the word otherwise returns an empty List</returns>
-	public List<PositionedDie> SearchBoard(string word)
+	private List<PositionedDie> SearchBoard(string word)
 	{
 		List<PositionedDie> result = [];
 		int cols = Board.Max(x => x.Col) + 1;
@@ -372,4 +383,17 @@ public class BoggleDice
 		return found;
 	}
 
+}
+
+public record struct WordScore(string Word, int Score, BoggleDice.ScoreReason Reason)
+{
+	public static implicit operator (string word, int score, BoggleDice.ScoreReason reason)(WordScore value)
+	{
+		return (value.Word, value.Score, value.Reason);
+	}
+
+	public static implicit operator WordScore((string word, int score, BoggleDice.ScoreReason reason) value)
+	{
+		return new WordScore(value.word, value.score, value.reason);
+	}
 }
