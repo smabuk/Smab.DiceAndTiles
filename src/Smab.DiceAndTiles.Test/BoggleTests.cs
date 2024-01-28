@@ -32,7 +32,7 @@ public class BoggleTests
 		}
 
 		string word = "";
-		WordScore wordScore;
+		BoggleDice.WordScore wordScore;
 
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 3 && d.Col < 3).Select(d => d.Die.Display));
 		wordScore = boggleDice.PlayWord(word);

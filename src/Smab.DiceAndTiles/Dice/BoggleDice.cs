@@ -386,17 +386,16 @@ public class BoggleDice
 		return found;
 	}
 
-}
-
-public record struct WordScore(string Word, int Score, BoggleDice.ScoreReason Reason)
-{
-	public static implicit operator (string word, int score, BoggleDice.ScoreReason reason)(WordScore value)
+	public record struct WordScore(string Word, int Score, ScoreReason Reason)
 	{
-		return (value.Word, value.Score, value.Reason);
-	}
+		public static implicit operator (string word, int score, ScoreReason reason)(WordScore value)
+		{
+			return (value.Word, value.Score, value.Reason);
+		}
 
-	public static implicit operator WordScore((string word, int score, BoggleDice.ScoreReason reason) value)
-	{
-		return new WordScore(value.word, value.score, value.reason);
+		public static implicit operator WordScore((string word, int score, ScoreReason reason) value)
+		{
+			return new WordScore(value.word, value.score, value.reason);
+		}
 	}
 }
