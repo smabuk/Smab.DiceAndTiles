@@ -2,6 +2,9 @@
 
 public class QLessDiceTests
 {
+	private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
+	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+
 	[Fact]
 	public void Should_Have_12_Dice()
 	{
@@ -30,6 +33,7 @@ public class QLessDiceTests
 	public void Play_A_Game()
 	{
 		QLessDice qLessDice = new();
+		qLessDice.HasDictionary.ShouldBeFalse();
 
 		foreach (var die in qLessDice.Dice)
 		{
@@ -90,6 +94,19 @@ public class QLessDiceTests
 
 		status = qLessDice.GameStatus();
 		_ = status.ShouldBeOfType<QLessDice.Win>();
+	}
+
+	[Fact]
+	public void Play_A_Game_With_A_Dictionary()
+	{
+		QLessDice qLessDice = new(_dictionaryOfWords);
+		qLessDice.HasDictionary.ShouldBeTrue();
+
+		foreach (var die in qLessDice.Dice)
+		{
+			die.UpperFace = 0;
+		}
+
 	}
 
 }

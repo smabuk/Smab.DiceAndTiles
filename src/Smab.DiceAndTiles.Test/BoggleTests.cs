@@ -2,6 +2,9 @@
 
 public class BoggleTests
 {
+	private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
+	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+
 	[Theory]
 	[InlineData(BoggleDice.BoggleType.Classic4x4,         16)]
 	[InlineData(BoggleDice.BoggleType.BigBoggleDeluxe,    25)]

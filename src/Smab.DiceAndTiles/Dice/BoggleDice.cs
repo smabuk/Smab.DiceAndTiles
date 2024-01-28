@@ -193,6 +193,7 @@ public class BoggleDice
 		Success,
 		Unplayable,
 		Misspelt,
+		TooShort,
 	}
 
 	public List<PositionedDie> Board { get; private set; } = [];
@@ -253,6 +254,10 @@ public class BoggleDice
 		if (reason == CheckResult.Success)
 		{
 			score = ScoreWord(word);
+			if (score == 0)
+			{
+				reason = CheckResult.TooShort;
+			}
 		}
 
 		return (score, reason);
