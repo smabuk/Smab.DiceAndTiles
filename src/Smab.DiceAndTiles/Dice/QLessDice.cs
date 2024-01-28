@@ -97,9 +97,13 @@ public class QLessDice
 				return new Win();
 			}
 
-			errorReasons |= ErrorReasons.Misspelt;
-			foreach (List<PositionedTile> tiles in swf.InvalidWordsAsTiles) {
-				tiles.ForEach(t => errorDice.Add(new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row)));
+			if (swf.InvalidWordsAsTiles.Count != 0)
+			{
+				errorReasons |= ErrorReasons.Misspelt;
+				foreach (List<PositionedTile> tiles in swf.InvalidWordsAsTiles)
+				{
+					tiles.ForEach(t => errorDice.Add(new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row)));
+				}
 			}
 		}
 		else if (notFinished is false && errorDice.Count == 0) {

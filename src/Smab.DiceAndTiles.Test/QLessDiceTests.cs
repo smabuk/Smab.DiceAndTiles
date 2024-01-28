@@ -2,7 +2,7 @@
 
 public class QLessDiceTests
 {
-	private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
+	private static readonly string[] _wordsList = ["HAM", "WHAM"];
 	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
 
 	[Fact]
@@ -106,6 +106,25 @@ public class QLessDiceTests
 		{
 			die.UpperFace = 0;
 		}
+
+		Die die0 = qLessDice.Rack.First(d => d.Die.Display == "W").Die;
+		Die die1 = qLessDice.Rack.First(d => d.Die.Display == "H").Die;
+		Die die2 = qLessDice.Rack.First(d => d.Die.Display == "A").Die;
+		Die die3 = qLessDice.Rack.First(d => d.Die.Display == "M").Die;
+
+		qLessDice.PlaceOnBoard(die0, 0, 1).ShouldBeTrue();
+		qLessDice.PlaceOnBoard(die1, 1, 1).ShouldBeTrue();
+		qLessDice.PlaceOnBoard(die2, 2, 1).ShouldBeTrue();
+		
+		QLessDice.Status status = qLessDice.GameStatus();
+		_ = status.ShouldBeOfType<QLessDice.Errors>();
+		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.Misspelt);
+
+		qLessDice.PlaceOnBoard(die3, 3, 1).ShouldBeTrue();
+		status = qLessDice.GameStatus();
+		_ = status.ShouldBeOfType<QLessDice.Errors>();
+		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.Misspelt);
+
 
 	}
 

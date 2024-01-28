@@ -10,7 +10,7 @@ public class DictionaryOfWordsTests
 	[InlineData("THIS")]
 	[InlineData("word")]
 	[InlineData("words")]
-	public void Is_AWord(string word)
+	public void Is_A_Word(string word)
 	{
 		bool actual = _dictionaryOfWords.IsWord(word);
 		Assert.True(actual);
