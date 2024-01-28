@@ -15,4 +15,49 @@ public class BoggleTests
 		boggleSet.Dice.Count.ShouldBe(expected);
 		boggleSet.Board.Count.ShouldBe(expected);
 	}
+
+	[Fact]
+	public void Play_A_Game()
+	{
+		BoggleDice boggleDice = new BoggleDice(BoggleDice.BoggleType.BigBoggleDeluxe);
+		boggleDice.Board.Count.ShouldBe(25);
+		boggleDice.BoardHeight.ShouldBe(5);
+		boggleDice.BoardWidth.ShouldBe(5);
+		boggleDice.BoardSize.ShouldBe(5);
+		boggleDice.HasDictionary.ShouldBeFalse();
+
+		foreach (var die in boggleDice.Dice)
+		{
+			die.UpperFace = 0;
+		}
+
+		string word = "";
+		WordScore wordScore;
+
+		word = string.Join("", boggleDice.Board.Where(d => d.Row == 3 && d.Col < 3).Select(d => d.Die.Display));
+		wordScore = boggleDice.PlayWord(word);
+		wordScore.Score.ShouldBe(0);
+		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.TooShort);
+
+		word = string.Join("", boggleDice.Board.Where(d => d.Row == 0).Select(d => d.Die.Display));
+		wordScore = boggleDice.PlayWord(word);
+		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Success);
+		wordScore.Score.ShouldBe(2);
+
+		wordScore = boggleDice.PlayWord(word);
+		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.AlreadyPlayed);
+		wordScore.Score.ShouldBe(0);
+
+		word += string.Join("", boggleDice.Board.Where(d => d.Col == 4 && d.Row > 0).Select(d => d.Die.Display));
+		wordScore = boggleDice.PlayWord(word);
+		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Success);
+		wordScore.Score.ShouldBe(11);
+
+		word += string.Join("", boggleDice.Board.Where(d => d.Col is 0 or 4 && d.Row is 0 or 4).Select(d => d.Die.Display));
+		wordScore = boggleDice.PlayWord(word);
+		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Unplayable);
+		wordScore.Score.ShouldBe(0);
+
+		boggleDice.Score.ShouldBe(13);
+	}
 }

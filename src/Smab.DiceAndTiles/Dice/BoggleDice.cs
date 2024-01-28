@@ -248,6 +248,7 @@ public class BoggleDice
 	public WordScore PlayWord(string word)
 	{
 		ScoreReason reason = ScoreReason.Success;
+		word = word.ToUpperInvariant();
 
 		List<PositionedDie> validSlots = SearchBoard(word);
 		int score = 0;
@@ -255,18 +256,20 @@ public class BoggleDice
 			reason = ScoreReason.Unplayable;
 		} else if (dictionaryOfWords.HasWords) {
 			reason = dictionaryOfWords.IsWord(word) ? ScoreReason.Success : ScoreReason.Misspelt;
-			if (reason == ScoreReason.Success)
+		}
+
+		if (reason == ScoreReason.Success)
+		{
+			score = ScoreWord(word);
+			if (score == 0)
 			{
-				score = ScoreWord(word);
-				if (score == 0)
-				{
-					reason = ScoreReason.TooShort;
-				}
+				reason = ScoreReason.TooShort;
 			}
 		}
 
-		if (Words.Any(w => w.Word == word))
+		if (Words.Any(w => w.Word.Equals(word, StringComparison.InvariantCultureIgnoreCase)))
 		{
+			score  = 0;
 			reason = ScoreReason.AlreadyPlayed;
 		}
 
