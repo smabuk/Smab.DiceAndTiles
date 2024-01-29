@@ -236,7 +236,7 @@ public class BoggleDice
 			die.Roll();
 			if (die.FaceValue.Name == "#")
 			{
-				die.Faces[die.UpperFace] = die.FaceValue with { Display = "■" };
+				die.Faces[die.UpperFace] = die.FaceValue with { Display = "\u2BC0" }; // ⯀ (Black Square Centred (U+2BC0))
 			}
 
 			board.Add(new PositionedDie(die with { Orientation = Random.Shared.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));
