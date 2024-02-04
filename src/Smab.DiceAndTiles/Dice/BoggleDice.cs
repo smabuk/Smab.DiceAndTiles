@@ -234,9 +234,15 @@ public class BoggleDice
 		{
 			LetterDie die = bag[boardIndex];
 			die.Roll();
-			if (die.FaceValue.Name == "#")
+			if (die.Name.Contains('#'))
 			{
-				die.Faces[die.UpperFace] = die.FaceValue with { Display = "\u2BC0" }; // ⯀ (Black Square Centred (U+2BC0))
+				for (int i = 0; i < die.Faces.Count; i++)
+				{
+					if (die.Faces[i].Name == "#")
+					{
+						die.Faces[i] = die.Faces[i] with { Display = "\u2BC0" }; // ⯀ (Black Square Centred (U+2BC0))
+					}
+				}
 			}
 
 			board.Add(new PositionedDie(die with { Orientation = Random.Shared.Next(0, 4) * 90 }, boardIndex % BoardSize, boardIndex / BoardSize));

@@ -11,10 +11,14 @@ public record NumericDie(int NoOfFaces = 6) : Die(NoOfFaces: NoOfFaces)
 			.Select(i => new NumericFace(i.ToString(), i.ToString(), i ))
 		];
 
-	public NumericFace FaceValue => Faces[UpperFace];
+
+	public override string Display => UpperFace.Display;
+	public override NumericFace UpperFace => Faces[UpperFaceIndex];
+	public override int Value => UpperFace.Value;
+
 
 #pragma warning disable IDE0052 // Remove unread private members
-	// Workaround to validate
+	// Hack to ensure the record goes through validation
 	private readonly bool _validate =
 		NoOfFaces <= 0
 		? throw new ArgumentOutOfRangeException($"{nameof(NoOfFaces)} must be greater than 0")

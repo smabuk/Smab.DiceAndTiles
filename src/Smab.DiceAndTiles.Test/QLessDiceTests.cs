@@ -37,7 +37,7 @@ public class QLessDiceTests
 
 		foreach (var die in qLessDice.Dice)
 		{
-			die.UpperFace = 0;
+			die.UpperFaceIndex = 0;
 		}
 
 		qLessDice.Board.ShouldBeEmpty();
@@ -104,7 +104,7 @@ public class QLessDiceTests
 
 		foreach (var die in qLessDice.Dice)
 		{
-			die.UpperFace = 0;
+			die.UpperFaceIndex = 0;
 		}
 
 		Die die0 = qLessDice.Rack.First(d => d.Die.Display == "W").Die;

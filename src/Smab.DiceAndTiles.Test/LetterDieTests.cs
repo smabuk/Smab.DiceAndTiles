@@ -5,35 +5,30 @@ public class LetterDieTests
 	private const int NO_OF_ITERATIONS = 1000;
 
 	[Theory]
-	[InlineData(new string[] { "A" }, 1)]
-	[InlineData(new string[] { "A", "Qu" }, 2)]
+	[InlineData(new string[] { "A" }          , 1)]
+	[InlineData(new string[] { "A", "Qu" }    , 2)]
 	[InlineData(new string[] { "A", "B", "C" }, 3)]
 	public void Create_WithNFaces_ReturnsDieWithNFaces(string[] faces, int expected)
 	{
-		var die = new LetterDie(faces);
-		var actual = die.NoOfFaces;
-
-		Assert.Equal(expected, actual);
+		LetterDie die = new(faces);
+		die.NoOfFaces.ShouldBe(expected);
 	}
 
 	[Theory]
-	[InlineData(new string[] { "A", "B", "C", "D" }, 4)]
+	[InlineData(new string[] { "A", "B", "C", "D" }      , 4)]
 	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, 5)]
 	public void Create_WithNFaces_ExpectsFaceValueInRange(string[] faces, int expectedFaces)
 	{
 
-		var dice = new List<LetterDie>[NO_OF_ITERATIONS]
-			.Select(d => new LetterDie(faces))
-			.ToList();
+		List<LetterDie> dice = [..  new List<LetterDie>[NO_OF_ITERATIONS].Select(d => new LetterDie(faces)) ];
 
 		foreach (var die in dice)
 		{
 			die.Roll();
 		}
 
-		Assert.Equal(expectedFaces, dice.First().Faces.Count);
-		Assert.All(dice, d => Assert.Contains(d.FaceValue.Value, faces.ToList()));
-
+		dice.First().Faces.Count.ShouldBe(expectedFaces);
+		dice.ShouldAllBe(d => faces.Contains(d.Display));
 	}
 
 	[Theory]
@@ -41,7 +36,56 @@ public class LetterDieTests
 	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, "ABCDQu")]
 	public void LetterDie_Name_Is_Set_Automatically(string[] faces, string expected)
 	{
-		LetterDie actual = new(faces);
-		Assert.Equal(expected, actual.Name);
+		LetterDie die = new(faces);
+		die.Name.ShouldBe(expected);
+	}
+
+	[Theory]
+	[InlineData(new string[] { "A", "B", "C", "D" }, "ABCD")]
+	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, "ABCDQu")]
+	public void LetterDie_Behaves_As_A_Die(string[] faces, string expected)
+	{
+		Die die = new LetterDie(faces) { UpperFaceIndex = 2 };
+		LetterDie letterDie = (LetterDie)die;
+
+		die.Name.ShouldBe(expected);
+		die.Name.ShouldBe(letterDie.Name);
+
+		die.UpperFaceIndex.ShouldBe(2);
+		die.UpperFaceIndex.ShouldBe(letterDie.UpperFaceIndex);
+
+		die.UpperFace.Display.ShouldBe(letterDie.UpperFace.Display);
+		die.Display.ShouldBe(die.UpperFace.Display);
+		die.Display.ShouldBe(letterDie.Display);
+		die.Display.ShouldBe("C");
+
+		die.Value.ShouldBe(0);
+		die.Value.ShouldBe(letterDie.UpperFace.NumericValue);
+		die.Value.ShouldBe(letterDie.Value);
+	}
+
+	[Theory]
+	[InlineData(new string[] { "A", "B", "C", "D" }, "ABCD")]
+	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, "ABCDQu")]
+	public void LetterDie_With_Values_Behaves_As_A_Die(string[] faces, string expected)
+	{
+
+		Die die = new LetterDie(faces.Select(f => (f, f[0] - 'A' + 1))) { UpperFaceIndex = 2 };
+		LetterDie letterDie = (LetterDie)die;
+
+		die.Name.ShouldBe(expected);
+		die.Name.ShouldBe(letterDie.Name);
+
+		die.UpperFaceIndex.ShouldBe(2);
+		die.UpperFaceIndex.ShouldBe(letterDie.UpperFaceIndex);
+
+		die.UpperFace.Display.ShouldBe(letterDie.UpperFace.Display);
+		die.Display.ShouldBe(die.UpperFace.Display);
+		die.Display.ShouldBe(letterDie.Display);
+		die.Display.ShouldBe("C");
+
+		die.Value.ShouldBe(3);
+		die.Value.ShouldBe(letterDie.UpperFace.NumericValue);
+		die.Value.ShouldBe(letterDie.Value);
 	}
 }

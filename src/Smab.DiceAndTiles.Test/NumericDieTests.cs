@@ -9,10 +9,8 @@ public class NumericDieTests
 	[InlineData(6, 6)]
 	public void Create_WithNFaces_ReturnsDieWithNFaces(int noOfFaces, int expected)
 	{
-		var die = new NumericDie(noOfFaces);
-		var actual = die.NoOfFaces;
-
-		Assert.Equal(expected, actual);
+		NumericDie die = new(noOfFaces);
+		die.NoOfFaces.ShouldBe(expected);
 	}
 
 	[Theory]
@@ -20,8 +18,7 @@ public class NumericDieTests
 	[InlineData(6, 6)]
 	public void Create_WithNFaces_ExpectsFaceValueInRange(int noOfFaces, int expectedMax)
 	{
-
-		var dice = new List<NumericDie>[NO_OF_ITERATIONS]
+		List<NumericDie> dice = new List<NumericDie>[NO_OF_ITERATIONS]
 			.Select(d => new NumericDie(noOfFaces))
 			.ToList();
 
@@ -30,8 +27,7 @@ public class NumericDieTests
 			die.Roll();
 		}
 
-		Assert.All(dice, d => Assert.InRange(d.FaceValue.Value, 1, expectedMax));
-
+		dice.ShouldAllBe(d => d.UpperFace.Value >= 1 && d.UpperFace.Value <= expectedMax);
 	}
 
 	[Theory]
@@ -39,11 +35,7 @@ public class NumericDieTests
 	[InlineData(0)]
 	public void Create_WithZeroOrNegativeFaces_ArgumentOutOfRangeException(int noOfFaces)
 	{
-#pragma warning disable CA1806 // Do not ignore method results
-		void actual() => new NumericDie(noOfFaces);
-#pragma warning restore CA1806 // Do not ignore method results
-
-		_ = Assert.Throws<ArgumentOutOfRangeException>(actual);
+		_ = Should.Throw<ArgumentOutOfRangeException>(() => new NumericDie(noOfFaces));
 	}
 
 	[Fact]
@@ -54,4 +46,27 @@ public class NumericDieTests
 		actual.NoOfFaces.ShouldBe(6);
 		actual.Faces.Select(face => face.Value).ShouldBe(values, ignoreOrder: true);
 	}
+
+	[Theory]
+	[InlineData(4)]
+	[InlineData(8)]
+	public void NumericDie_Behaves_As_A_Die(int noOfFaces)
+	{
+		Die die = new NumericDie(noOfFaces) { UpperFaceIndex = 0 };
+		NumericDie numericDie = (NumericDie)die;
+
+		die.Name.ShouldBe(numericDie.Name);
+
+		die.UpperFaceIndex.ShouldBe(0);
+		die.UpperFaceIndex.ShouldBe(numericDie.UpperFaceIndex);
+		
+		die.UpperFace.Display.ShouldBe(numericDie.UpperFace.Display);
+		die.Display.ShouldBe(die.UpperFace.Display);
+		die.Display.ShouldBe(numericDie.Display);
+
+		die.Value.ShouldBe(1);
+		die.Value.ShouldBe(numericDie.UpperFace.Value);
+		die.Value.ShouldBe(numericDie.Value);
+	}
+
 }

@@ -1,15 +1,17 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public record Die(string Name = "", int NoOfFaces = 6)
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Name">A name that must be unique within a set of dice.</param>
+/// <param name="NoOfFaces">The number of faces</param>
+public abstract record Die(string Name = "", int NoOfFaces = 6)
 {
-	public int UpperFace { get; set; }
+	public int UpperFaceIndex { get; set; }
 
-	public virtual string Display => this switch
-	{
-		NumericDie die => die.FaceValue.Display,
-		LetterDie  die => die.FaceValue.Display,
-		_ => "",
-	};
+	public abstract string Display { get; }
+	public abstract Face   UpperFace { get; }
+	public abstract int    Value { get; }
 
-	public virtual void Roll() => UpperFace = Random.Shared.Next(0, NoOfFaces);
+	public virtual void Roll() => UpperFaceIndex = Random.Shared.Next(0, NoOfFaces);
 }

@@ -35,9 +35,9 @@ public partial class ScrabbleDice
 			bag[i].Roll();
 			bag[i].Orientation = rnd.Next(0, 4) * 90;
 
-			if (bag[i].FaceValue.Name == "#")
+			if (bag[i].UpperFace.Name == "#")
 			{
-				bag[i].Faces[bag[i].UpperFace] = bag[i].FaceValue with { Display = "■" };
+				bag[i].Faces[bag[i].UpperFaceIndex] = bag[i].UpperFace with { Display = "■" };
 			}
 
 			Rack.Add(bag[i]);

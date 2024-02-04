@@ -2,8 +2,8 @@
 
 public class BoggleTests
 {
-	private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
-	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+	//private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
+	//private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
 
 	[Theory]
 	[InlineData(BoggleDice.BoggleType.Classic4x4,         16)]
@@ -11,9 +11,22 @@ public class BoggleTests
 	[InlineData(BoggleDice.BoggleType.SuperBigBoggle2012, 36)]
 	public void Should_Have_N_Dice(BoggleDice.BoggleType boggleType, int expected)
 	{
-		var boggleSet = new BoggleDice(boggleType);
+		BoggleDice boggleSet = new(boggleType);
 		boggleSet.Dice.Count.ShouldBe(expected);
 		boggleSet.Board.Count.ShouldBe(expected);
+	}
+
+	[Fact]
+	public void Should_Handle_Dice_With_Blanks_Properly()
+	{
+		BoggleDice boggleDice = new(BoggleDice.BoggleType.SuperBigBoggle2012);
+		boggleDice.Board.Count.ShouldBe(36);
+		LetterDie die = (boggleDice.Board.Where(x => x.Die.Name.Contains('#')).First().Die as LetterDie)!;
+
+		die.Faces.Where(f => f.Name is "#").ShouldAllBe(f => f.StringValue == "#");
+		die.Faces.Where(f => f.Name is "#").ShouldAllBe(f => f.Display == "\u2BC0"); // ⯀ (Black Square Centred (U+2BC0))
+
+		die.Faces.Where(f => f.Name is not "#").ShouldAllBe(f => f.Display == f.StringValue);
 	}
 
 	[Fact]
@@ -28,7 +41,7 @@ public class BoggleTests
 
 		foreach (var die in boggleDice.Dice)
 		{
-			die.UpperFace = 0;
+			die.UpperFaceIndex = 0;
 		}
 
 		string word = "";
@@ -42,7 +55,8 @@ public class BoggleTests
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 0).Select(d => d.Die.Display));
 		wordScore = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Success);
-		wordScore.Score.ShouldBe(2);
+		int shortWordBonus = word.Contains('Q') ? 1 : 0;
+		wordScore.Score.ShouldBe(2 + shortWordBonus);
 
 		wordScore = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.AlreadyPlayed);
@@ -58,6 +72,6 @@ public class BoggleTests
 		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Unplayable);
 		wordScore.Score.ShouldBe(0);
 
-		boggleDice.Score.ShouldBe(13);
+		boggleDice.Score.ShouldBe(13 + shortWordBonus);
 	}
 }
