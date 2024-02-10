@@ -24,7 +24,7 @@ public class LetterDieTests
 
 		foreach (var die in dice)
 		{
-			die.Roll();
+			_ = die.Roll();
 		}
 
 		dice.First().Faces.Count.ShouldBe(expectedFaces);
@@ -37,7 +37,7 @@ public class LetterDieTests
 	public void LetterDie_Name_Is_Set_Automatically(string[] faces, string expected)
 	{
 		LetterDie die = new(faces);
-		die.Name.ShouldBe(expected);
+		die.Id.ToString().ShouldBe(expected);
 	}
 
 	[Theory]
@@ -48,8 +48,8 @@ public class LetterDieTests
 		Die die = new LetterDie(faces) { UpperFaceIndex = 2 };
 		LetterDie letterDie = (LetterDie)die;
 
-		die.Name.ShouldBe(expected);
-		die.Name.ShouldBe(letterDie.Name);
+		die.Id.ToString().ShouldBe(expected);
+		die.Id.ToString().ShouldBe(letterDie.Id.ToString());
 
 		die.UpperFaceIndex.ShouldBe(2);
 		die.UpperFaceIndex.ShouldBe(letterDie.UpperFaceIndex);
@@ -73,8 +73,8 @@ public class LetterDieTests
 		Die die = new LetterDie(faces.Select(f => (f, f[0] - 'A' + 1))) { UpperFaceIndex = 2 };
 		LetterDie letterDie = (LetterDie)die;
 
-		die.Name.ShouldBe(expected);
-		die.Name.ShouldBe(letterDie.Name);
+		die.Id.ToString().ShouldBe(expected);
+		die.Id.ToString().ShouldBe(letterDie.Id.ToString());
 
 		die.UpperFaceIndex.ShouldBe(2);
 		die.UpperFaceIndex.ShouldBe(letterDie.UpperFaceIndex);

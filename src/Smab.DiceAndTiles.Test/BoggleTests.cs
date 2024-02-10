@@ -21,12 +21,12 @@ public class BoggleTests
 	{
 		BoggleDice boggleDice = new(BoggleDice.BoggleType.SuperBigBoggle2012);
 		boggleDice.Board.Count.ShouldBe(36);
-		LetterDie die = (boggleDice.Board.Where(x => x.Die.Name.Contains('#')).First().Die as LetterDie)!;
+		LetterDie die = (boggleDice.Board.Where(x => x.Die.Id.ToString().Contains('#')).First().Die as LetterDie)!;
 
-		die.Faces.Where(f => f.Name is "#").ShouldAllBe(f => f.StringValue == "#");
-		die.Faces.Where(f => f.Name is "#").ShouldAllBe(f => f.Display == "\u2BC0"); // ⯀ (Black Square Centred (U+2BC0))
+		die.Faces.Where(f => f.IsBlank).ShouldAllBe(f => f.Id == Face.Blank);
+		die.Faces.Where(f => f.IsBlank).ShouldAllBe(f => f.Display == BoggleDice.BlankDisplay);
 
-		die.Faces.Where(f => f.Name is not "#").ShouldAllBe(f => f.Display == f.StringValue);
+		die.Faces.Where(f => f.IsNotBlank).ShouldAllBe(f => f.Display == f.StringValue);
 	}
 
 	[Fact]

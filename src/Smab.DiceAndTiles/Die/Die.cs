@@ -3,9 +3,9 @@
 /// <summary>
 /// 
 /// </summary>
-/// <param name="Name">A name that must be unique within a set of dice.</param>
 /// <param name="NoOfFaces">The number of faces</param>
-public abstract record Die(string Name = "", int NoOfFaces = 6)
+/// <param name="Id">A name that must be unique within a set of dice.</param>
+public abstract record Die(int NoOfFaces = 6, DieId Id = default) : Entity<DieId>(Id)
 {
 	public int UpperFaceIndex { get; set; }
 
@@ -13,5 +13,12 @@ public abstract record Die(string Name = "", int NoOfFaces = 6)
 	public abstract Face   UpperFace { get; }
 	public abstract int    Value { get; }
 
-	public virtual void Roll() => UpperFaceIndex = Random.Shared.Next(0, NoOfFaces);
+	public virtual Die Roll()
+	{
+		UpperFaceIndex = Random.Shared.Next(0, NoOfFaces);
+		return this;
+	}
+
+	public virtual bool HasBlank => Id.ToString().Contains(Face.Blank); // Hack
+	public virtual bool IsBlank  => UpperFace.IsBlank;
 }

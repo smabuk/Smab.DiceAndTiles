@@ -24,7 +24,7 @@ public class NumericDieTests
 
 		foreach (var die in dice)
 		{
-			die.Roll();
+			_ = die.Roll();
 		}
 
 		dice.ShouldAllBe(d => d.UpperFace.Value >= 1 && d.UpperFace.Value <= expectedMax);
@@ -55,7 +55,7 @@ public class NumericDieTests
 		Die die = new NumericDie(noOfFaces) { UpperFaceIndex = 0 };
 		NumericDie numericDie = (NumericDie)die;
 
-		die.Name.ShouldBe(numericDie.Name);
+		die.Id.ShouldBe(numericDie.Id);
 
 		die.UpperFaceIndex.ShouldBe(0);
 		die.UpperFaceIndex.ShouldBe(numericDie.UpperFaceIndex);

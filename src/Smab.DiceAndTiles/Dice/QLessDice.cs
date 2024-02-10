@@ -5,7 +5,7 @@ public class QLessDice
 	private const int ANY_COL  = int.MinValue;
 	private const int RACK_ROW = int.MinValue;
 
-	private Dictionary<string, PositionedDie> diceDictionary = [];
+	private Dictionary<DieId, PositionedDie> diceDictionary = [];
 	private readonly DictionaryOfWords dictionaryOfWords;
 
 	private readonly List<LetterDie> diceSet =
@@ -39,8 +39,8 @@ public class QLessDice
 
 		for (int i = 0; i < bag.Length; i++) {
 			LetterDie die = bag[i];
-			die.Roll();
-			diceDictionary.Add(die.Name, new PositionedDie(die, i, RACK_ROW, i));
+			_ = die.Roll();
+			diceDictionary.Add(die.Id, new PositionedDie(die, i, RACK_ROW, i));
 		}
 	}
 
@@ -113,8 +113,8 @@ public class QLessDice
 		return new Errors(errorDice, errorReasons);
 	}
 
-	public bool PlaceOnBoard(Die die, int col, int row) => PlaceOnBoard(die.Name, col, row);
-	public bool PlaceOnBoard(string name, int col, int row)
+	public bool PlaceOnBoard(Die die, int col, int row) => PlaceOnBoard(die.Id, col, row);
+	public bool PlaceOnBoard(DieId name, int col, int row)
 	{
 		PositionedDie positionedDie = diceDictionary[name];
 		if (Board.Any(d => d.Row == row && d.Col == col)) {
@@ -126,10 +126,10 @@ public class QLessDice
 		return true;
 	}
 
-	public bool PlaceOnRack(Die die, int col = ANY_COL) => PlaceOnRack(die.Name, col);
-	public bool PlaceOnRack(string name, int col = ANY_COL)
+	public bool PlaceOnRack(Die die, int col = ANY_COL) => PlaceOnRack(die.Id, col);
+	public bool PlaceOnRack(DieId dieId, int col = ANY_COL)
 	{
-		PositionedDie positionedDie = diceDictionary[name];
+		PositionedDie positionedDie = diceDictionary[dieId];
 		if (col != ANY_COL && Rack.Any(d => d.Col == col)) {
 			return false;
 		}
@@ -143,7 +143,7 @@ public class QLessDice
 		}
 
 		positionedDie = positionedDie with { Col = col, Row = RACK_ROW };
-		diceDictionary[name] = positionedDie;
+		diceDictionary[dieId] = positionedDie;
 		return true;
 	}
 

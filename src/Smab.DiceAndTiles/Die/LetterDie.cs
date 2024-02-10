@@ -2,12 +2,12 @@
 
 public record LetterDie : Die
 {
-	public LetterDie(IEnumerable<string> faces)
-		: base(string.Join("", faces), faces.Count())
+	public LetterDie(IEnumerable<string> faces, DieId? dieId = null)
+		: base(faces.Count(), dieId ?? new DieId(string.Join("", faces)))
 		=> Faces = [..faces.Select(face => new LetterFace(face, face, face))];
 
-	public LetterDie(IEnumerable<(string face, int numericValue)> faces)
-		: base(string.Join("", faces.Select(f => f.face)), NoOfFaces: faces.Count())
+	public LetterDie(IEnumerable<(string face, int numericValue)> faces, DieId? dieId = null)
+		: base(NoOfFaces: faces.Count(), Id: dieId ?? new DieId(string.Join("", faces.Select(f => f.face))))
 		=> Faces = [..faces.Select(item => new LetterFace(item.face, item.face, item.face, item.numericValue))];
 
 	public List<LetterFace> Faces { get; init; } = [];

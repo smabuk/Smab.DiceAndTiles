@@ -2,6 +2,11 @@
 
 public class BoggleDice
 {
+	/// <summary>
+	/// Unicode character ⯀ (Black Square Centred (U+2BC0))
+	/// </summary>
+	public const string BlankDisplay = "\u2BC0";
+
 	private readonly List<LetterDie> _Dice_Classic4x4 =
 	[
 		new([ "A", "A", "C", "I", "O", "T" ]),
@@ -60,12 +65,12 @@ public class BoggleDice
 		new([ "C", "C", "E", "N", "S", "T" ]),
 
 		new([ "C", "E", "I", "I", "L", "T" ]) ,
-		new([ "C", "E", "I", "L", "P", "T" ]) ,
+		new([ "C", "E", "I", "L", "P", "T" ]) { },
 		new([ "C", "E", "I", "P", "S", "T" ]) ,
 		new([ "D", "D", "H", "N", "O", "T" ]) ,
-		new([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR1" } ,
+		new([ "D", "H", "H", "L", "O", "R" ], new DieId("DHHLOR1")),
 
-		new([ "D", "H", "H", "L", "O", "R" ]) { Name = "DHHLOR2" },
+		new([ "D", "H", "H", "L", "O", "R" ], new DieId("DHHLOR2")),
 		new([ "D", "H", "L", "N", "O", "R" ]),
 		new([ "E", "I", "I", "I", "T", "T" ]),
 		new([ "E", "M", "O", "T", "T", "T" ]),
@@ -233,14 +238,14 @@ public class BoggleDice
 		for (int boardIndex = 0; boardIndex < bag.Length; boardIndex++)
 		{
 			LetterDie die = bag[boardIndex];
-			die.Roll();
-			if (die.Name.Contains('#'))
+			_ = die.Roll();
+			if (die.HasBlank)
 			{
 				for (int i = 0; i < die.Faces.Count; i++)
 				{
-					if (die.Faces[i].Name == "#")
+					if (die.Faces[i].IsBlank)
 					{
-						die.Faces[i] = die.Faces[i] with { Display = "\u2BC0" }; // ⯀ (Black Square Centred (U+2BC0))
+						die.Faces[i] = die.Faces[i] with { Display = BlankDisplay };
 					}
 				}
 			}
