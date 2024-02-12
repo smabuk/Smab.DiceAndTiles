@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles.Test;
+﻿namespace Smab.DiceAndTiles.Test.Dice;
 
 public class NumericDieTests
 {
@@ -18,7 +18,7 @@ public class NumericDieTests
 	[InlineData(6, 6)]
 	public void Create_WithNFaces_ExpectsFaceValueInRange(int noOfFaces, int expectedMax)
 	{
-		List<NumericDie> dice = new List<NumericDie>[NO_OF_ITERATIONS]
+		var dice = new List<NumericDie>[NO_OF_ITERATIONS]
 			.Select(d => new NumericDie(noOfFaces))
 			.ToList();
 
@@ -42,7 +42,7 @@ public class NumericDieTests
 	public void Create_Doubling_Die()
 	{
 		int[] values = [2, 4, 8, 16, 32, 64];
-		NumericDie actual = new NumericDie(values);
+		var actual = new NumericDie(values);
 		actual.NoOfFaces.ShouldBe(6);
 		actual.Faces.Select(face => face.Value).ShouldBe(values, ignoreOrder: true);
 	}
@@ -53,13 +53,13 @@ public class NumericDieTests
 	public void NumericDie_Behaves_As_A_Die(int noOfFaces)
 	{
 		Die die = new NumericDie(noOfFaces) { UpperFaceIndex = 0 };
-		NumericDie numericDie = (NumericDie)die;
+		var numericDie = (NumericDie)die;
 
 		die.Id.ShouldBe(numericDie.Id);
 
 		die.UpperFaceIndex.ShouldBe(0);
 		die.UpperFaceIndex.ShouldBe(numericDie.UpperFaceIndex);
-		
+
 		die.UpperFace.Display.ShouldBe(numericDie.UpperFace.Display);
 		die.Display.ShouldBe(die.UpperFace.Display);
 		die.Display.ShouldBe(numericDie.Display);

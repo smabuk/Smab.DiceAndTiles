@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles.Test;
+﻿namespace Smab.DiceAndTiles.Test.Words;
 
 public class ScrabbleWordFinderTests
 {
@@ -13,7 +13,7 @@ public class ScrabbleWordFinderTests
 			new PositionedTile(new ScrabbleTile('H', 4), 5, 3),
 			new PositionedTile(new ScrabbleTile('I', 1), 6, 3),
 			new PositionedTile(new ScrabbleTile('S', 1), 7, 3),
-			
+
 			new PositionedTile(new ScrabbleTile('I', 1), 4, 2),
 
 			new PositionedTile(new ScrabbleTile('B', 3), 1, 1),
@@ -30,7 +30,7 @@ public class ScrabbleWordFinderTests
 		swf.Islands[1].Count.ShouldBe(3);  // B A D
 
 
-		List<string> words = swf.FindWords();
+		var words = swf.FindWords();
 		words.Count.ShouldBe(3);
 		words.ShouldBe(["THIS", "IT", "BAD"], ignoreOrder: true);
 
@@ -60,7 +60,7 @@ public class ScrabbleWordFinderTests
 
 		swf.Islands[0].Count.ShouldBe(8);  // T H I S I H A D
 
-		List<string> words = swf.FindWords();
+		var words = swf.FindWords();
 		words.Count.ShouldBe(3);
 		words.ShouldBe(["THIS", "BIT", "BAD"], ignoreOrder: true);
 
@@ -85,7 +85,7 @@ public class ScrabbleWordFinderTests
 
 		ScrabbleWordFinder swf = new(board, _dictionaryOfWords);
 
-		List<string> words = swf.FindWords();
+		var words = swf.FindWords();
 		words.Count.ShouldBe(2);
 		words.ShouldBe(["THIS", "BIT"], ignoreOrder: true);
 

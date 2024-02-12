@@ -1,6 +1,6 @@
 ﻿using Smab.DiceAndTiles.Games.Boggle;
 
-namespace Smab.DiceAndTiles.Test;
+namespace Smab.DiceAndTiles.Test.Games;
 
 public class BoggleTests
 {
@@ -8,8 +8,8 @@ public class BoggleTests
 	//private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
 
 	[Theory]
-	[InlineData(BoggleDice.BoggleType.Classic4x4,         16)]
-	[InlineData(BoggleDice.BoggleType.BigBoggleDeluxe,    25)]
+	[InlineData(BoggleDice.BoggleType.Classic4x4, 16)]
+	[InlineData(BoggleDice.BoggleType.BigBoggleDeluxe, 25)]
 	[InlineData(BoggleDice.BoggleType.SuperBigBoggle2012, 36)]
 	public void Should_Have_N_Dice(BoggleDice.BoggleType boggleType, int expected)
 	{
@@ -23,7 +23,7 @@ public class BoggleTests
 	{
 		BoggleDice boggleDice = new(BoggleDice.BoggleType.SuperBigBoggle2012);
 		boggleDice.Board.Count.ShouldBe(36);
-		LetterDie die = (boggleDice.Board.Where(x => x.Die.Id.ToString().Contains('#')).First().Die as LetterDie)!;
+		var die = (boggleDice.Board.Where(x => x.Die.Id.ToString().Contains('#')).First().Die as LetterDie)!;
 
 		die.Faces.Where(f => f.IsBlank).ShouldAllBe(f => f.Id == Face.Blank);
 		die.Faces.Where(f => f.IsBlank).ShouldAllBe(f => f.Display == BoggleDice.BlankDisplay);
@@ -34,7 +34,7 @@ public class BoggleTests
 	[Fact]
 	public void Play_A_Game()
 	{
-		BoggleDice boggleDice = new BoggleDice(BoggleDice.BoggleType.BigBoggleDeluxe);
+		var boggleDice = new BoggleDice(BoggleDice.BoggleType.BigBoggleDeluxe);
 		boggleDice.Board.Count.ShouldBe(25);
 		boggleDice.BoardHeight.ShouldBe(5);
 		boggleDice.BoardWidth.ShouldBe(5);
@@ -46,7 +46,7 @@ public class BoggleTests
 			die.UpperFaceIndex = 0;
 		}
 
-		string word = "";
+		var word = "";
 		BoggleDice.WordScore wordScore;
 
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 3 && d.Col < 3).Select(d => d.Die.Display));
@@ -57,7 +57,7 @@ public class BoggleTests
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 0).Select(d => d.Die.Display));
 		wordScore = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(BoggleDice.ScoreReason.Success);
-		int shortWordBonus = word.Contains('Q') ? 1 : 0;
+		var shortWordBonus = word.Contains('Q') ? 1 : 0;
 		wordScore.Score.ShouldBe(2 + shortWordBonus);
 
 		wordScore = boggleDice.PlayWord(word);

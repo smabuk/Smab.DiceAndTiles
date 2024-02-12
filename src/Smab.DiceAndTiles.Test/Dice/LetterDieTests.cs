@@ -1,12 +1,12 @@
-﻿namespace Smab.DiceAndTiles.Test;
+﻿namespace Smab.DiceAndTiles.Test.Dice;
 
 public class LetterDieTests
 {
 	private const int NO_OF_ITERATIONS = 1000;
 
 	[Theory]
-	[InlineData(new string[] { "A" }          , 1)]
-	[InlineData(new string[] { "A", "Qu" }    , 2)]
+	[InlineData(new string[] { "A" }, 1)]
+	[InlineData(new string[] { "A", "Qu" }, 2)]
 	[InlineData(new string[] { "A", "B", "C" }, 3)]
 	public void Create_WithNFaces_ReturnsDieWithNFaces(string[] faces, int expected)
 	{
@@ -15,12 +15,12 @@ public class LetterDieTests
 	}
 
 	[Theory]
-	[InlineData(new string[] { "A", "B", "C", "D" }      , 4)]
+	[InlineData(new string[] { "A", "B", "C", "D" }, 4)]
 	[InlineData(new string[] { "A", "B", "C", "D", "Qu" }, 5)]
 	public void Create_WithNFaces_ExpectsFaceValueInRange(string[] faces, int expectedFaces)
 	{
 
-		List<LetterDie> dice = [..  new List<LetterDie>[NO_OF_ITERATIONS].Select(d => new LetterDie(faces)) ];
+		List<LetterDie> dice = [.. new List<LetterDie>[NO_OF_ITERATIONS].Select(d => new LetterDie(faces))];
 
 		foreach (var die in dice)
 		{
@@ -46,7 +46,7 @@ public class LetterDieTests
 	public void LetterDie_Behaves_As_A_Die(string[] faces, string expected)
 	{
 		Die die = new LetterDie(faces) { UpperFaceIndex = 2 };
-		LetterDie letterDie = (LetterDie)die;
+		var letterDie = (LetterDie)die;
 
 		die.Id.ToString().ShouldBe(expected);
 		die.Id.ToString().ShouldBe(letterDie.Id.ToString());
@@ -71,7 +71,7 @@ public class LetterDieTests
 	{
 
 		Die die = new LetterDie(faces.Select(f => (f, f[0] - 'A' + 1))) { UpperFaceIndex = 2 };
-		LetterDie letterDie = (LetterDie)die;
+		var letterDie = (LetterDie)die;
 
 		die.Id.ToString().ShouldBe(expected);
 		die.Id.ToString().ShouldBe(letterDie.Id.ToString());

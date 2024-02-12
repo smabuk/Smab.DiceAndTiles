@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles.Test;
+﻿namespace Smab.DiceAndTiles.Test.Words;
 
 public class DictionaryOfWordsTests
 {
@@ -12,7 +12,7 @@ public class DictionaryOfWordsTests
 	[InlineData("words")]
 	public void Is_A_Word(string word)
 	{
-		bool actual = _dictionaryOfWords.IsWord(word);
+		var actual = _dictionaryOfWords.IsWord(word);
 		Assert.True(actual);
 	}
 
@@ -23,7 +23,7 @@ public class DictionaryOfWordsTests
 	[InlineData("wordier")]
 	public void Is_Not_AWord(string word)
 	{
-		bool actual = _dictionaryOfWords.IsWord(word);
+		var actual = _dictionaryOfWords.IsWord(word);
 		Assert.False(actual);
 	}
 
