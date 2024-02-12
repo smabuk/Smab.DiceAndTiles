@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles;
+﻿namespace Smab.DiceAndTiles.Games.Boggle;
 
 public class BoggleDice
 {

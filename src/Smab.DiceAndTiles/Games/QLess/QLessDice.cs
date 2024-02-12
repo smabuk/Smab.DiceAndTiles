@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles;
+﻿namespace Smab.DiceAndTiles.Games.QLess;
 
 public class QLessDice
 {

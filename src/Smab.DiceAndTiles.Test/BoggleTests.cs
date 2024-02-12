@@ -1,4 +1,6 @@
-﻿namespace Smab.DiceAndTiles.Test;
+﻿using Smab.DiceAndTiles.Games.Boggle;
+
+namespace Smab.DiceAndTiles.Test;
 
 public class BoggleTests
 {
