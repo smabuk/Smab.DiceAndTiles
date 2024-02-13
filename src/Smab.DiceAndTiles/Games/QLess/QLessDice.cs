@@ -3,9 +3,8 @@
 public class QLessDice
 {
 	private const int ANY_COL  = int.MinValue;
-	private const int RACK_ROW = int.MinValue;
 
-	private Dictionary<DieId, PositionedDie> diceDictionary = [];
+	private Dictionary<DieId, PositionedQLessDie> diceDictionary = [];
 	private readonly DictionaryOfWords dictionaryOfWords;
 
 	private readonly List<LetterDie> diceSet =
@@ -31,25 +30,26 @@ public class QLessDice
 		dictionaryOfWords = dictionary ?? new();
 	}
 
+	public List<LetterDie>     Dice  { get; set; }
+
+	public IReadOnlyList<PositionedDie> Board => [.. diceDictionary.Values.Where(p => p.Location is Location.Board)];
+	public IReadOnlyList<PositionedDie> Rack  => [.. diceDictionary.Values.Where(p => p.Location is Location.Rack)];
+
+	public bool HasDictionary => dictionaryOfWords.HasWords;
+
 	private void ShakeAndFillRack()
 	{
 		diceDictionary = [];
 		LetterDie[] bag = [.. Dice];
 		Random.Shared.Shuffle(bag);
 
-		for (int i = 0; i < bag.Length; i++) {
+		for (int i = 0; i < bag.Length; i++)
+		{
 			LetterDie die = bag[i];
 			_ = die.Roll();
-			diceDictionary.Add(die.Id, new PositionedDie(die, i, RACK_ROW, i));
+			diceDictionary.Add(die.Id, new PositionedQLessDie(die, i));
 		}
 	}
-
-	public List<LetterDie>     Dice  { get; set; }
-
-	public IReadOnlyList<PositionedDie> Board => [.. diceDictionary.Values.Where(d => d.Row != RACK_ROW)];
-	public IReadOnlyList<PositionedDie> Rack  => [.. diceDictionary.Values.Where(d => d.Row == RACK_ROW)];
-
-	public bool HasDictionary => dictionaryOfWords.HasWords;
 
 	public Status GameStatus()
 	{
@@ -64,7 +64,7 @@ public class QLessDice
 			notFinished = true;
 		}
 
-		if (swf.ValidWordsAsTiles.Concat(swf.InvalidWordsAsTiles).Where(t => t.Count == 2).Any()) {
+		if (swf.ValidWordsAsTiles.Concat(swf.InvalidWordsAsTiles).Any(t => t.Count == 2)) {
 			errorReasons |= ErrorReasons.TwoLetterWords;
 			notFinished = true;
 			errorDice = [.. errorDice,
@@ -74,7 +74,7 @@ public class QLessDice
 				.Where(t => t.Count == 2)
 				.SelectMany(t => t)
 				.Distinct()
-				.Select(t => new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row))
+				.Select(t => Board.SingleDieAt(t.Col, t.Row))
 			];
 		}
 
@@ -88,7 +88,7 @@ public class QLessDice
 				.Skip(1)
 				.Where(i => i.Count != 0)
 				.SelectMany(t => t)
-				.Select(t => new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row))
+				.Select(t => Board.SingleDieAt(t.Col, t.Row))
 			];
 		}
 
@@ -102,7 +102,7 @@ public class QLessDice
 				errorReasons |= ErrorReasons.Misspelt;
 				foreach (List<PositionedTile> tiles in swf.InvalidWordsAsTiles)
 				{
-					tiles.ForEach(t => errorDice.Add(new PositionedDie(Board.Where(d => d.Col == t.Col && d.Row == t.Row).Single().Die, t.Col, t.Row)));
+					tiles.ForEach(t => errorDice.Add(Board.SingleDieAt(t.Col, t.Row)));
 				}
 			}
 		}
@@ -116,12 +116,12 @@ public class QLessDice
 	public bool PlaceOnBoard(Die die, int col, int row) => PlaceOnBoard(die.Id, col, row);
 	public bool PlaceOnBoard(DieId name, int col, int row)
 	{
-		PositionedDie positionedDie = diceDictionary[name];
+		PositionedQLessDie positionedDie = diceDictionary[name];
 		if (Board.Any(d => d.Row == row && d.Col == col)) {
 			return false;
 		}
 
-		positionedDie = positionedDie with { Col = col, Row = row };
+		positionedDie = positionedDie.PlaceOnBoard(col, row);
 		diceDictionary[name] = positionedDie;
 		return true;
 	}
@@ -129,8 +129,8 @@ public class QLessDice
 	public bool PlaceOnRack(Die die, int col = ANY_COL) => PlaceOnRack(die.Id, col);
 	public bool PlaceOnRack(DieId dieId, int col = ANY_COL)
 	{
-		PositionedDie positionedDie = diceDictionary[dieId];
-		if (col != ANY_COL && Rack.Any(d => d.Col == col)) {
+		PositionedQLessDie positionedDie = diceDictionary[dieId];
+		if (col != ANY_COL && Rack.Any(p => p.Col == col)) {
 			return false;
 		}
 
@@ -138,14 +138,15 @@ public class QLessDice
 			col = Enumerable.Range(0, Dice.Count).Except(Rack.Select(d => d.Col)).Min();
 		}
 
-		if (Rack.Any(d => d.Row == RACK_ROW && d.Col == col)) {
+		if (Rack.Any(p => p.Col == col)) {
 			return false;
 		}
 
-		positionedDie = positionedDie with { Col = col, Row = RACK_ROW };
+		positionedDie = positionedDie.PlaceOnRack(col);
 		diceDictionary[dieId] = positionedDie;
 		return true;
 	}
+
 
 	public abstract record class Status();
 	public record Win() : Status;

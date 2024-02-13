@@ -20,14 +20,14 @@ public class QLessTests
 	public void Instances_Should_Not_Share_Dice()
 	{
 		QLessDice qLessDice1 = new();
-		var rack1 = string.Join("", qLessDice1.Rack.OrderBy(x => x.Die.Display).Select(x => x.Die.Display));
+		var rack1 = string.Join("", qLessDice1.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
 
 		QLessDice qLessDice2 = new();
-		var rack2 = string.Join("", qLessDice2.Rack.OrderBy(x => x.Die.Display).Select(x => x.Die.Display));
+		var rack2 = string.Join("", qLessDice2.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
 
 		rack1.ShouldNotBe(rack2);
 
-		rack1 = string.Join("", qLessDice1.Rack.OrderBy(x => x.Die.Display).Select(x => x.Die.Display));
+		rack1 = string.Join("", qLessDice1.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
 		rack1.ShouldNotBe(rack2);
 	}
 
@@ -46,8 +46,8 @@ public class QLessTests
 		qLessDice.Dice.Count.ShouldBe(12);
 		qLessDice.Rack.Count.ShouldBe(12);
 
-		var die0 = qLessDice.Rack.Single(d => d.Col == 0).Die;
-		var die7 = qLessDice.Rack.Single(d => d.Col == 7).Die;
+		var die0 = qLessDice.Rack.Single(p => p.Col == 0).Die;
+		var die7 = qLessDice.Rack.Single(p => p.Col == 7).Die;
 
 		qLessDice.PlaceOnBoard(die0, 5, 5).ShouldBeTrue();
 		qLessDice.Board.Count.ShouldBe(1);
@@ -109,10 +109,10 @@ public class QLessTests
 			die.UpperFaceIndex = 0;
 		}
 
-		var die0 = qLessDice.Rack.First(d => d.Die.Display == "W").Die;
-		var die1 = qLessDice.Rack.First(d => d.Die.Display == "H").Die;
-		var die2 = qLessDice.Rack.First(d => d.Die.Display == "A").Die;
-		var die3 = qLessDice.Rack.First(d => d.Die.Display == "M").Die;
+		var die0 = qLessDice.Rack.First(p => p.Die.Display == "W").Die;
+		var die1 = qLessDice.Rack.First(p => p.Die.Display == "H").Die;
+		var die2 = qLessDice.Rack.First(p => p.Die.Display == "A").Die;
+		var die3 = qLessDice.Rack.First(p => p.Die.Display == "M").Die;
 
 		qLessDice.PlaceOnBoard(die0, 0, 1).ShouldBeTrue();
 		qLessDice.PlaceOnBoard(die1, 1, 1).ShouldBeTrue();
