@@ -157,7 +157,7 @@ public partial class BoggleDice
 	/// </summary>
 	/// <param name="word"></param>
 	/// <returns>Returns the first list of slots that make up the word otherwise returns an empty List</returns>
-	private List<PositionedDie> SearchBoard(string word)
+	public List<PositionedDie> SearchBoard(string word)
 	{
 		List<PositionedDie> result = [];
 		int cols = Board.Max(x => x.Col) + 1;
