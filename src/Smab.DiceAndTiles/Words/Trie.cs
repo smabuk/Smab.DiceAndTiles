@@ -12,7 +12,7 @@ internal sealed class Trie {
 		for (int i = 0; i < word.Length; i++) {
 			char c = word[i];
 
-			if (!current.Children.TryGetValue(c, out var value)) {
+			if (!current.Children.TryGetValue(c, out TrieNode? value)) {
 				value = new TrieNode();
 				current.Children.Add(c, value);
 			}
@@ -29,7 +29,7 @@ internal sealed class Trie {
 		for (int i = 0; i < word.Length; i++) {
 			char c = word[i];
 
-			if (!current.Children.TryGetValue(c, out var value)) {
+			if (!current.Children.TryGetValue(c, out TrieNode? value)) {
 				return false;
 			}
 

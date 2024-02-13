@@ -20,10 +20,10 @@ public class QLessTests
 	public void Instances_Should_Not_Share_Dice()
 	{
 		QLessDice qLessDice1 = new();
-		var rack1 = string.Join("", qLessDice1.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
+		string rack1 = string.Join("", qLessDice1.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
 
 		QLessDice qLessDice2 = new();
-		var rack2 = string.Join("", qLessDice2.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
+		string rack2 = string.Join("", qLessDice2.Rack.OrderBy(p => p.Die.Display).Select(x => x.Die.Display));
 
 		rack1.ShouldNotBe(rack2);
 
@@ -37,7 +37,7 @@ public class QLessTests
 		QLessDice qLessDice = new();
 		qLessDice.HasDictionary.ShouldBeFalse();
 
-		foreach (var die in qLessDice.Dice)
+		foreach (LetterDie die in qLessDice.Dice)
 		{
 			die.UpperFaceIndex = 0;
 		}
@@ -46,8 +46,8 @@ public class QLessTests
 		qLessDice.Dice.Count.ShouldBe(12);
 		qLessDice.Rack.Count.ShouldBe(12);
 
-		var die0 = qLessDice.Rack.Single(p => p.Col == 0).Die;
-		var die7 = qLessDice.Rack.Single(p => p.Col == 7).Die;
+		Die die0 = qLessDice.Rack.Single(p => p.Col == 0).Die;
+		Die die7 = qLessDice.Rack.Single(p => p.Col == 7).Die;
 
 		qLessDice.PlaceOnBoard(die0, 5, 5).ShouldBeTrue();
 		qLessDice.Board.Count.ShouldBe(1);
@@ -61,7 +61,7 @@ public class QLessTests
 		qLessDice.Board.Count.ShouldBe(2);
 		qLessDice.Rack.Count.ShouldBe(10);
 
-		var status = qLessDice.GameStatus();
+		QLessDice.Status status = qLessDice.GameStatus();
 		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.TwoLetterWords);
 		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.MissingDice);
 		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.MultipleBlocks);
@@ -75,8 +75,8 @@ public class QLessTests
 		qLessDice.Rack.Count.ShouldBe(11);
 
 
-		var row = 0;
-		for (var i = 0; i < qLessDice.Dice.Count; i++)
+		int row = 0;
+		for (int i = 0; i < qLessDice.Dice.Count; i++)
 		{
 			row = (row + 2) % 10;
 			qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row).ShouldBeTrue();
@@ -88,7 +88,7 @@ public class QLessTests
 		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.MissingDice);
 		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.MultipleBlocks);
 
-		for (var i = 0; i < qLessDice.Dice.Count; i++)
+		for (int i = 0; i < qLessDice.Dice.Count; i++)
 		{
 			row = 1;
 			qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row).ShouldBeTrue();
@@ -104,21 +104,21 @@ public class QLessTests
 		QLessDice qLessDice = new(_dictionaryOfWords);
 		qLessDice.HasDictionary.ShouldBeTrue();
 
-		foreach (var die in qLessDice.Dice)
+		foreach (LetterDie die in qLessDice.Dice)
 		{
 			die.UpperFaceIndex = 0;
 		}
 
-		var die0 = qLessDice.Rack.First(p => p.Die.Display == "W").Die;
-		var die1 = qLessDice.Rack.First(p => p.Die.Display == "H").Die;
-		var die2 = qLessDice.Rack.First(p => p.Die.Display == "A").Die;
-		var die3 = qLessDice.Rack.First(p => p.Die.Display == "M").Die;
+		Die die0 = qLessDice.Rack.First(p => p.Die.Display == "W").Die;
+		Die die1 = qLessDice.Rack.First(p => p.Die.Display == "H").Die;
+		Die die2 = qLessDice.Rack.First(p => p.Die.Display == "A").Die;
+		Die die3 = qLessDice.Rack.First(p => p.Die.Display == "M").Die;
 
 		qLessDice.PlaceOnBoard(die0, 0, 1).ShouldBeTrue();
 		qLessDice.PlaceOnBoard(die1, 1, 1).ShouldBeTrue();
 		qLessDice.PlaceOnBoard(die2, 2, 1).ShouldBeTrue();
 
-		var status = qLessDice.GameStatus();
+		QLessDice.Status status = qLessDice.GameStatus();
 		_ = status.ShouldBeOfType<QLessDice.Errors>();
 		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.Misspelt);
 

@@ -30,7 +30,7 @@ public class ScrabbleWordFinderTests
 		swf.Islands[1].Count.ShouldBe(3);  // B A D
 
 
-		var words = swf.FindWords();
+		List<string> words = swf.FindWords();
 		words.Count.ShouldBe(3);
 		words.ShouldBe(["THIS", "IT", "BAD"], ignoreOrder: true);
 
@@ -60,7 +60,7 @@ public class ScrabbleWordFinderTests
 
 		swf.Islands[0].Count.ShouldBe(8);  // T H I S I H A D
 
-		var words = swf.FindWords();
+		List<string> words = swf.FindWords();
 		words.Count.ShouldBe(3);
 		words.ShouldBe(["THIS", "BIT", "BAD"], ignoreOrder: true);
 
@@ -85,7 +85,7 @@ public class ScrabbleWordFinderTests
 
 		ScrabbleWordFinder swf = new(board, _dictionaryOfWords);
 
-		var words = swf.FindWords();
+		List<string> words = swf.FindWords();
 		words.Count.ShouldBe(2);
 		words.ShouldBe(["THIS", "BIT"], ignoreOrder: true);
 

@@ -18,11 +18,11 @@ public class NumericDieTests
 	[InlineData(6, 6)]
 	public void Create_WithNFaces_ExpectsFaceValueInRange(int noOfFaces, int expectedMax)
 	{
-		var dice = new List<NumericDie>[NO_OF_ITERATIONS]
+		List<NumericDie> dice = new List<NumericDie>[NO_OF_ITERATIONS]
 			.Select(d => new NumericDie(noOfFaces))
 			.ToList();
 
-		foreach (var die in dice)
+		foreach (NumericDie die in dice)
 		{
 			_ = die.Roll();
 		}
@@ -42,7 +42,7 @@ public class NumericDieTests
 	public void Create_Doubling_Die()
 	{
 		int[] values = [2, 4, 8, 16, 32, 64];
-		var actual = new NumericDie(values);
+		NumericDie actual = new NumericDie(values);
 		actual.NoOfFaces.ShouldBe(6);
 		actual.Faces.Select(face => face.Value).ShouldBe(values, ignoreOrder: true);
 	}
@@ -53,7 +53,7 @@ public class NumericDieTests
 	public void NumericDie_Behaves_As_A_Die(int noOfFaces)
 	{
 		Die die = new NumericDie(noOfFaces) { UpperFaceIndex = 0 };
-		var numericDie = (NumericDie)die;
+		NumericDie numericDie = (NumericDie)die;
 
 		die.Id.ShouldBe(numericDie.Id);
 

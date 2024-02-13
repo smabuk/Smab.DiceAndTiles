@@ -19,7 +19,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, DictionaryOfW
 		List<PositionedTile> island = [];
 
 		int noOfIslands = 0;
-		foreach (var tile in _board)
+		foreach (PositionedTile tile in _board)
 		{
 			if (visited.Contains((tile.Col, tile.Row)))
 			{
@@ -98,7 +98,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, DictionaryOfW
 
 		List<PositionedTile> neighbours = GetNeighbours(currentTile, direction);
 		for (int i = 0; i < neighbours.Count; i++) {
-			var nextTile = neighbours[i];
+			PositionedTile nextTile = neighbours[i];
 			if (!currentWord.Contains(nextTile)) {
 				currentWord.Add(nextTile);
 				FindWords(nextTile, currentWord, foundWords, direction);
@@ -115,7 +115,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, DictionaryOfW
 		List<PositionedTile> neighbours = [];
 
 		for (int i = 0; i < _board.Count; i++) {
-			var nextTile = _board[i];
+			PositionedTile nextTile = _board[i];
 			if (IsAdjacentAndInLine(tile, nextTile, direction)) {
 				neighbours.Add(nextTile);
 			}

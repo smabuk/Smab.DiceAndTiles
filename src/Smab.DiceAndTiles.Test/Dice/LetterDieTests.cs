@@ -22,7 +22,7 @@ public class LetterDieTests
 
 		List<LetterDie> dice = [.. new List<LetterDie>[NO_OF_ITERATIONS].Select(d => new LetterDie(faces))];
 
-		foreach (var die in dice)
+		foreach (LetterDie die in dice)
 		{
 			_ = die.Roll();
 		}
@@ -46,7 +46,7 @@ public class LetterDieTests
 	public void LetterDie_Behaves_As_A_Die(string[] faces, string expected)
 	{
 		Die die = new LetterDie(faces) { UpperFaceIndex = 2 };
-		var letterDie = (LetterDie)die;
+		LetterDie letterDie = (LetterDie)die;
 
 		die.Id.ToString().ShouldBe(expected);
 		die.Id.ToString().ShouldBe(letterDie.Id.ToString());
@@ -71,7 +71,7 @@ public class LetterDieTests
 	{
 
 		Die die = new LetterDie(faces.Select(f => (f, f[0] - 'A' + 1))) { UpperFaceIndex = 2 };
-		var letterDie = (LetterDie)die;
+		LetterDie letterDie = (LetterDie)die;
 
 		die.Id.ToString().ShouldBe(expected);
 		die.Id.ToString().ShouldBe(letterDie.Id.ToString());
