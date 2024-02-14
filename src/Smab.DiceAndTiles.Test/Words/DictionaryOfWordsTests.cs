@@ -3,7 +3,7 @@
 public class DictionaryOfWordsTests
 {
 	private static readonly string[] _wordsList = ["this", "is", "a", "sample", "word", "list", "of", "words"];
-	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+	private static readonly IDictionaryOfWords _dictionaryOfWords = new DictionaryOfWords(_wordsList);
 
 	[Theory]
 	[InlineData("this")]

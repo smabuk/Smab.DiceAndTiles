@@ -3,7 +3,7 @@
 public class ScrabbleWordFinderTests
 {
 	private static readonly string[] _wordsList = ["this", "is", "a", "bit", "of", "a", "list", "of", "words"];
-	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+	private static readonly IDictionaryOfWords _dictionaryOfWords = new DictionaryOfWords(_wordsList);
 
 	[Fact]
 	public void Board_Should_Have_Islands()

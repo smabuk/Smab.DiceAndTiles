@@ -5,7 +5,7 @@ namespace Smab.DiceAndTiles.Test.Games;
 public class QLessTests
 {
 	private static readonly string[] _wordsList = ["HAM", "WHAM"];
-	private static readonly DictionaryOfWords _dictionaryOfWords = new(_wordsList);
+	private static readonly IDictionaryOfWords _dictionaryOfWords = new DictionaryOfWords(_wordsList);
 
 	[Fact]
 	public void Should_Have_12_Dice()

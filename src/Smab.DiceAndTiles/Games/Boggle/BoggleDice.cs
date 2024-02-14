@@ -7,13 +7,13 @@ public partial class BoggleDice
 	/// </summary>
 	public const string BlankDisplay = "\u2BC0";
 
-	private readonly DictionaryOfWords dictionaryOfWords;
+	private readonly IDictionaryOfWords dictionaryOfWords;
 
-	public BoggleDice(string type, DictionaryOfWords? dictionary = null) : this(type.ToBoggleType(), dictionary) { }
+	public BoggleDice(string type, IDictionaryOfWords? dictionary = null) : this(type.ToBoggleType(), dictionary) { }
 	
-	public BoggleDice(BoggleType type = BoggleType.Classic4x4, DictionaryOfWords? dictionary = null)
+	public BoggleDice(BoggleType type = BoggleType.Classic4x4, IDictionaryOfWords? dictionary = null)
 	{
-		dictionaryOfWords = dictionary ?? new();
+		dictionaryOfWords = dictionary ?? new DictionaryOfWords();
 		Type = type;
 
 		BoardSize = (int)Math.Sqrt(Type switch
