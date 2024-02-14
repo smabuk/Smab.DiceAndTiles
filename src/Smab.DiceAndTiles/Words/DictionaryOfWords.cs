@@ -1,6 +1,7 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public class DictionaryOfWords {
+public class DictionaryOfWords : IDictionaryOfWords
+{
 
 	public int Count { get; private set; }
 	public bool HasWords => Count > 0;
@@ -12,11 +13,13 @@ public class DictionaryOfWords {
 		Count = 0;
 	}
 
-	public DictionaryOfWords(string filename) {
-		if (!File.Exists(filename)) {
+	public DictionaryOfWords(string filename)
+	{
+		if (!File.Exists(filename))
+		{
 			throw new FileNotFoundException(nameof(filename));
 		}
-		
+
 		foreach (string word in File.ReadAllLines(filename))
 		{
 			_trie.Insert(word.ToUpperInvariant());
@@ -24,7 +27,8 @@ public class DictionaryOfWords {
 		}
 	}
 
-	public DictionaryOfWords(IEnumerable<string> words) {
+	public DictionaryOfWords(IEnumerable<string> words)
+	{
 		foreach (string word in words)
 		{
 			_trie.Insert(word.ToUpperInvariant());
