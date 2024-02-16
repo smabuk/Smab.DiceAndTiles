@@ -5,7 +5,7 @@ namespace Smab.DiceAndTiles.Test.Games;
 public class QLessTests
 {
 	private static readonly string[] _wordsList = ["HAM", "WHAM"];
-	private static readonly IDictionaryOfWords _dictionaryOfWords = new DictionaryOfWords(_wordsList);
+	private static readonly IDictionaryService _dictionaryOfWords = new DictionaryService(_wordsList);
 
 	[Fact]
 	public void Should_Have_12_Dice()
@@ -126,8 +126,5 @@ public class QLessTests
 		status = qLessDice.GameStatus();
 		_ = status.ShouldBeOfType<QLessDice.Errors>();
 		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.Misspelt);
-
-
 	}
-
 }

@@ -1,6 +1,6 @@
 ﻿namespace Smab.DiceAndTiles;
 
-public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, IDictionaryOfWords? dictionary = null)
+public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, IDictionaryService? dictionary = null)
 {
 	private readonly List<PositionedTile> _board = tiles.ToList();
 	private readonly HashSet<string> _visited = [];
@@ -10,7 +10,7 @@ public class ScrabbleWordFinder(IEnumerable<PositionedTile> tiles, IDictionaryOf
 	public List<List<PositionedTile>> ValidWordsAsTiles   { get; private set; } = [];
 
 
-	public ScrabbleWordFinder(IEnumerable<PositionedDie> dice, IDictionaryOfWords? dictionary = null) : 
+	public ScrabbleWordFinder(IEnumerable<PositionedDie> dice, IDictionaryService? dictionary = null) : 
 		this(dice.Select(d => new PositionedTile(new LetterTile(d.Die.Display), d.Col, d.Row)), dictionary) { }
 
 	public bool IsBlockInMoreThanOnePiece()

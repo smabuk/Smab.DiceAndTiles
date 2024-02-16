@@ -5,7 +5,7 @@ public class QLessDice
 	private const int ANY_COL  = int.MinValue;
 
 	private Dictionary<DieId, PositionedQLessDie> diceDictionary = [];
-	private readonly IDictionaryOfWords dictionaryOfWords;
+	private readonly IDictionaryService dictionaryOfWords;
 
 	private readonly List<LetterDie> diceSet =
 	[
@@ -23,11 +23,11 @@ public class QLessDice
 		new([ "A", "A", "E", "E", "O", "O" ]),
 	];
 
-	public QLessDice(IDictionaryOfWords? dictionary = null)
+	public QLessDice(IDictionaryService? dictionary = null)
 	{
 		Dice = [.. diceSet];
 		ShakeAndFillRack();
-		dictionaryOfWords = dictionary ?? new DictionaryOfWords();
+		dictionaryOfWords = dictionary ?? new DictionaryService(Array.Empty<string>());
 	}
 
 	public List<LetterDie>     Dice  { get; set; }
