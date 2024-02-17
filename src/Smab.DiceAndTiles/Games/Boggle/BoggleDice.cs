@@ -13,7 +13,7 @@ public partial class BoggleDice
 	
 	public BoggleDice(BoggleType type = BoggleType.Classic4x4, IDictionaryService? dictionary = null)
 	{
-		dictionaryOfWords = dictionary ?? new DictionaryService(Array.Empty<string>());
+		dictionaryOfWords = dictionary ?? new DictionaryService();
 		Type = type;
 
 		BoardSize = (int)Math.Sqrt(Type switch

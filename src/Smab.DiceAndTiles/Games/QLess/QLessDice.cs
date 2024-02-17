@@ -27,7 +27,7 @@ public class QLessDice
 	{
 		Dice = [.. diceSet];
 		ShakeAndFillRack();
-		dictionaryOfWords = dictionary ?? new DictionaryService(Array.Empty<string>());
+		dictionaryOfWords = dictionary ?? new DictionaryService();
 	}
 
 	public List<LetterDie>     Dice  { get; set; }
