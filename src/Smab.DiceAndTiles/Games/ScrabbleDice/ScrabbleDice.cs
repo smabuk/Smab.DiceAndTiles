@@ -18,7 +18,7 @@ public partial class ScrabbleDice
 
 	public List<LetterDie> Board { get; set; } = [];
 	public int NoOfDiceOnBoard => Board.Count;
-	public int BoardSize => 9;
+	public readonly int BoardSize = 9;
 
 	public List<LetterDie> Rack { get; set; } = [];
 

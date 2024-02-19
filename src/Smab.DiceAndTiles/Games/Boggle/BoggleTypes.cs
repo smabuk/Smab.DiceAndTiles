@@ -11,7 +11,7 @@ public static class BoggleTypes
 	public const string New4x4             = "new";
 	public const string SuperBigBoggle2012 = "superbig";
 
-	public static string[] ValidBoggleTypes = [
+	public static readonly string[] ValidBoggleTypes = [
 		BigBoggleOriginal,
 		BigBoggleChallenge,
 		Classic4x4,

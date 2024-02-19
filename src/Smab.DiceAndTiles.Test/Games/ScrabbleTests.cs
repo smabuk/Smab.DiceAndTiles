@@ -8,7 +8,7 @@ public class ScrabbleTests
 	{
 		Scrabble scrabble = new Scrabble();
 
-		scrabble.English_ScrabbleTiles.Count().ShouldBe(100);
+		scrabble.English_ScrabbleTiles.Count.ShouldBe(100);
 
 		foreach ((ScrabbleTile Tile, int Count) item in Scrabble.English_Distribution)
 		{

@@ -1,7 +1,9 @@
-﻿namespace Smab.DiceAndTiles.Games.Scrabble;
+﻿using TileDistribution = (Smab.DiceAndTiles.ScrabbleTile Tile, int Count);
+
+namespace Smab.DiceAndTiles.Games.Scrabble;
 public partial class Scrabble
 {
-	public readonly static List<(ScrabbleTile Tile, int Count)> English_Distribution =
+	public static readonly List<TileDistribution> English_Distribution =
 	[
 		(new('#',  0),  2),
 		(new('A',  1),  9),
@@ -34,7 +36,7 @@ public partial class Scrabble
 
 	public readonly List<ScrabbleTile> English_ScrabbleTiles =
 		[.. English_Distribution
-			.Select(dist => Enumerable.Repeat(new ScrabbleTile(dist.Tile.Letter, dist.Tile.Score), dist.Count))
+			.Select(td => Enumerable.Repeat(new ScrabbleTile(td.Tile.Letter, td.Tile.Score), td.Count))
 			.SelectMany(tiles => tiles)
 		];
 }
