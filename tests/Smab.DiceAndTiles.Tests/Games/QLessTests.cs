@@ -1,6 +1,6 @@
 ﻿using Smab.DiceAndTiles.Games.QLess;
 
-namespace Smab.DiceAndTiles.Test.Games;
+namespace Smab.DiceAndTiles.Tests.Games;
 
 public class QLessTests
 {

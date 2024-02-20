@@ -1,6 +1,6 @@
 ﻿using Smab.DiceAndTiles.Games.Scrabble;
 
-namespace Smab.DiceAndTiles.Test.Games;
+namespace Smab.DiceAndTiles.Tests.Games;
 public class ScrabbleTests
 {
 	[Fact]

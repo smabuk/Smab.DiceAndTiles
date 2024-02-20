@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Smab.DiceAndTiles\Smab.DiceAndTiles.csproj" />
+		<ProjectReference Include="..\..\src\Smab.DiceAndTiles\Smab.DiceAndTiles.csproj" />
 	</ItemGroup>
 
 </Project>

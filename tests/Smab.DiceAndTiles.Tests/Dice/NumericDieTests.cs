@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles.Test.Dice;
+﻿namespace Smab.DiceAndTiles.Tests.Dice;
 
 public class NumericDieTests
 {

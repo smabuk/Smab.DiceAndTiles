@@ -1,4 +1,4 @@
-﻿namespace Smab.DiceAndTiles.Test.Words;
+﻿namespace Smab.DiceAndTiles.Tests.Words;
 
 public class ScrabbleWordFinderTests
 {
