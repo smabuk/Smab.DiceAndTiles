@@ -1,13 +1,13 @@
 ﻿namespace Smab.DiceAndTiles.Games.QLess;
 
-public class QLessDice
+public record class QLessDice(IDictionaryService? DictionaryService = null, ImmutableList<LetterDie> Dice = null!, bool RollDice = true)
 {
 	private const int ANY_COL  = int.MinValue;
 
-	private Dictionary<DieId, PositionedQLessDie> diceDictionary = [];
-	private readonly IDictionaryService dictionaryOfWords;
+	private readonly Dictionary<DieId, PositionedQLessDie> diceDictionary = ShakeAndFillRack(Dice ?? [.. QLessDice.DiceSet], RollDice);
+	private readonly IDictionaryService dictionaryOfWords = DictionaryService ?? new DictionaryService();
 
-	private readonly List<LetterDie> diceSet =
+	public static readonly List<LetterDie> DiceSet =
 	[
 		new([ "M", "M", "L", "L", "B", "Y" ]),
 		new([ "V", "F", "G", "K", "P", "P" ]),
@@ -23,32 +23,29 @@ public class QLessDice
 		new([ "A", "A", "E", "E", "O", "O" ]),
 	];
 
-	public QLessDice(IDictionaryService? dictionary = null)
-	{
-		Dice = [.. diceSet];
-		ShakeAndFillRack();
-		dictionaryOfWords = dictionary ?? new DictionaryService();
-	}
-
-	public List<LetterDie>     Dice  { get; set; }
+	public ImmutableList<LetterDie> Dice { get; init; } = Dice ?? [.. DiceSet];
 
 	public IReadOnlyList<PositionedDie> Board => [.. diceDictionary.Values.Where(p => p.Location is Location.Board)];
 	public IReadOnlyList<PositionedDie> Rack  => [.. diceDictionary.Values.Where(p => p.Location is Location.Rack)];
 
 	public bool HasDictionary => dictionaryOfWords.HasWords;
 
-	private void ShakeAndFillRack()
+	private static Dictionary<DieId, PositionedQLessDie> ShakeAndFillRack(IEnumerable<LetterDie> dice, bool rollDice)
 	{
-		diceDictionary = [];
-		LetterDie[] bag = [.. Dice];
+		Dictionary<DieId, PositionedQLessDie> diceDictionary = [];
+		LetterDie[] bag = [.. dice];
 		Random.Shared.Shuffle(bag);
 
 		for (int i = 0; i < bag.Length; i++)
 		{
 			LetterDie die = bag[i];
-			_ = die.Roll();
+			if (rollDice)
+			{
+				die = (LetterDie)die.Roll();
+			}
 			diceDictionary.Add(die.Id, new PositionedQLessDie(die, i));
 		}
+		return diceDictionary;
 	}
 
 	public Status GameStatus()

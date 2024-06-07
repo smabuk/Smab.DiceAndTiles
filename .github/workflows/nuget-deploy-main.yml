@@ -16,7 +16,7 @@ env:
   # Setting the required env flags
   package_name: Smab.DiceAndTiles
   config: Release
-  dotnet_core_version: 8.0.x
+  dotnet_core_version: 9.0.100-preview.4.24267.66
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
 

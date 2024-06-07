@@ -1,6 +1,4 @@
-﻿using static Smab.DiceAndTiles.Games.Boggle.BoggleDice;
-
-namespace Smab.DiceAndTiles.Games.Boggle;
+﻿namespace Smab.DiceAndTiles.Games.Boggle;
 
 public static class BoggleTypes
 {

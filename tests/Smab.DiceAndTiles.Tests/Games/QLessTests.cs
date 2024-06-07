@@ -34,13 +34,8 @@ public class QLessTests
 	[Fact]
 	public void Play_A_Game()
 	{
-		QLessDice qLessDice = new();
+		QLessDice qLessDice = new(Dice: [.. QLessDice.DiceSet], RollDice: false);
 		qLessDice.HasDictionary.ShouldBeFalse();
-
-		foreach (LetterDie die in qLessDice.Dice)
-		{
-			die.UpperFaceIndex = 0;
-		}
 
 		qLessDice.Board.ShouldBeEmpty();
 		qLessDice.Dice.Count.ShouldBe(12);
@@ -101,13 +96,8 @@ public class QLessTests
 	[Fact]
 	public void Play_A_Game_With_A_Dictionary()
 	{
-		QLessDice qLessDice = new(_dictionaryOfWords);
+		QLessDice qLessDice = new(_dictionaryOfWords, [.. QLessDice.DiceSet], RollDice: false);
 		qLessDice.HasDictionary.ShouldBeTrue();
-
-		foreach (LetterDie die in qLessDice.Dice)
-		{
-			die.UpperFaceIndex = 0;
-		}
 
 		Die die0 = qLessDice.Rack.First(p => p.Die.Display == "W").Die;
 		Die die1 = qLessDice.Rack.First(p => p.Die.Display == "H").Die;
