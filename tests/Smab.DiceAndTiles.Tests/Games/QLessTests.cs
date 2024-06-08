@@ -34,7 +34,7 @@ public class QLessTests
 	[Fact]
 	public void Play_A_Game()
 	{
-		QLessDice qLessDice = new(Dice: [.. QLessDice.DiceSet], RollDice: false);
+		QLessDice qLessDice = new(Dice: [.. DiceCollections.DefaultDiceSet], RollDice: false);
 		qLessDice.HasDictionary.ShouldBeFalse();
 
 		qLessDice.Board.ShouldBeEmpty();
@@ -44,28 +44,34 @@ public class QLessTests
 		Die die0 = qLessDice.Rack.Single(p => p.Col == 0).Die;
 		Die die7 = qLessDice.Rack.Single(p => p.Col == 7).Die;
 
-		qLessDice.PlaceOnBoard(die0, 5, 5).ShouldBeTrue();
+		bool success;
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die0, 5, 5);
+		success.ShouldBeTrue();
 		qLessDice.Board.Count.ShouldBe(1);
 		qLessDice.Rack.Count.ShouldBe(11);
 
-		qLessDice.PlaceOnBoard(die7, 5, 5).ShouldBeFalse();
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die7, 5, 5);
+		success.ShouldBeFalse();
 		qLessDice.Board.Count.ShouldBe(1);
 		qLessDice.Rack.Count.ShouldBe(11);
 
-		qLessDice.PlaceOnBoard(die7, 4, 5).ShouldBeTrue();
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die7, 4, 5);
+		success.ShouldBeTrue();
 		qLessDice.Board.Count.ShouldBe(2);
 		qLessDice.Rack.Count.ShouldBe(10);
 
-		QLessDice.Status status = qLessDice.GameStatus();
-		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.TwoLetterWords);
-		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.MissingDice);
-		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.MultipleBlocks);
+		QLessDiceStatus status = qLessDice.GameStatus();
+		((Errors)status).ErrorReasons.ShouldHaveFlag(ErrorReasons.TwoLetterWords);
+		((Errors)status).ErrorReasons.ShouldHaveFlag(ErrorReasons.MissingDice);
+		((Errors)status).ErrorReasons.ShouldNotHaveFlag(ErrorReasons.MultipleBlocks);
 
-		qLessDice.PlaceOnRack(die7, 4).ShouldBeFalse();
+		(success, qLessDice) = qLessDice.PlaceOnRack(die7, 4);
+		success.ShouldBeFalse();
 		qLessDice.Board.Count.ShouldBe(2);
 		qLessDice.Rack.Count.ShouldBe(10);
 
-		qLessDice.PlaceOnRack(die7).ShouldBeTrue();
+		(success, qLessDice) = qLessDice.PlaceOnRack(die7);
+		success.ShouldBeTrue();
 		qLessDice.Board.Count.ShouldBe(1);
 		qLessDice.Rack.Count.ShouldBe(11);
 
@@ -74,29 +80,31 @@ public class QLessTests
 		for (int i = 0; i < qLessDice.Dice.Count; i++)
 		{
 			row = (row + 2) % 10;
-			qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row).ShouldBeTrue();
+			(success, qLessDice) = qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row);
+			success.ShouldBeTrue();
 		}
 
 		status = qLessDice.GameStatus();
-		_ = status.ShouldBeOfType<QLessDice.Errors>();
-		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.TwoLetterWords);
-		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.MissingDice);
-		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.MultipleBlocks);
+		_ = status.ShouldBeOfType<Errors>();
+		((Errors)status).ErrorReasons.ShouldNotHaveFlag(ErrorReasons.TwoLetterWords);
+		((Errors)status).ErrorReasons.ShouldNotHaveFlag(ErrorReasons.MissingDice);
+		((Errors)status).ErrorReasons.ShouldHaveFlag(ErrorReasons.MultipleBlocks);
 
 		for (int i = 0; i < qLessDice.Dice.Count; i++)
 		{
 			row = 1;
-			qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row).ShouldBeTrue();
+			(success, qLessDice) = qLessDice.PlaceOnBoard(qLessDice.Dice[i], i, row);
+			success.ShouldBeTrue();
 		}
 
 		status = qLessDice.GameStatus();
-		_ = status.ShouldBeOfType<QLessDice.Win>();
+		_ = status.ShouldBeOfType<Win>();
 	}
 
 	[Fact]
 	public void Play_A_Game_With_A_Dictionary()
 	{
-		QLessDice qLessDice = new(_dictionaryOfWords, [.. QLessDice.DiceSet], RollDice: false);
+		QLessDice qLessDice = new(_dictionaryOfWords, [.. DiceCollections.DefaultDiceSet], RollDice: false);
 		qLessDice.HasDictionary.ShouldBeTrue();
 
 		Die die0 = qLessDice.Rack.First(p => p.Die.Display == "W").Die;
@@ -104,17 +112,22 @@ public class QLessTests
 		Die die2 = qLessDice.Rack.First(p => p.Die.Display == "A").Die;
 		Die die3 = qLessDice.Rack.First(p => p.Die.Display == "M").Die;
 
-		qLessDice.PlaceOnBoard(die0, 0, 1).ShouldBeTrue();
-		qLessDice.PlaceOnBoard(die1, 1, 1).ShouldBeTrue();
-		qLessDice.PlaceOnBoard(die2, 2, 1).ShouldBeTrue();
+		bool success;
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die0, 0, 1);
+		success.ShouldBeTrue();
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die1, 1, 1);
+		success.ShouldBeTrue();
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die2, 2, 1);
+		success.ShouldBeTrue();
 
-		QLessDice.Status status = qLessDice.GameStatus();
-		_ = status.ShouldBeOfType<QLessDice.Errors>();
-		((QLessDice.Errors)status).ErrorReasons.ShouldHaveFlag(QLessDice.ErrorReasons.Misspelt);
+		QLessDiceStatus status = qLessDice.GameStatus();
+		_ = status.ShouldBeOfType<Errors>();
+		((Errors)status).ErrorReasons.ShouldHaveFlag(ErrorReasons.Misspelt);
 
-		qLessDice.PlaceOnBoard(die3, 3, 1).ShouldBeTrue();
+		(success, qLessDice) = qLessDice.PlaceOnBoard(die3, 3, 1);
+		success.ShouldBeTrue();
 		status = qLessDice.GameStatus();
-		_ = status.ShouldBeOfType<QLessDice.Errors>();
-		((QLessDice.Errors)status).ErrorReasons.ShouldNotHaveFlag(QLessDice.ErrorReasons.Misspelt);
+		_ = status.ShouldBeOfType<Errors>();
+		((Errors)status).ErrorReasons.ShouldNotHaveFlag(ErrorReasons.Misspelt);
 	}
 }
