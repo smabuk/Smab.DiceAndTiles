@@ -1,8 +1,8 @@
 ﻿namespace Smab.DiceAndTiles.Games.Boggle;
 
-public partial record class BoggleDice
+internal class BoggleDiceCollections
 {
-	private static readonly List<LetterDie> _Dice_Classic4x4 =
+	public static readonly List<LetterDie> _Dice_Classic4x4 =
 	[
 		new([ "A", "A", "C", "I", "O", "T" ]),
 		new([ "A", "B", "I", "L", "T", "Y" ]),
@@ -25,7 +25,7 @@ public partial record class BoggleDice
 		new([ "G", "I", "L", "R", "U", "W" ]),
 	];
 
-	private static readonly List<LetterDie> _Dice_New4x4 =
+	public static readonly List<LetterDie> _Dice_New4x4 =
 	[
 		new([ "A", "A", "E", "E", "G", "N" ]),
 		new([ "A", "B", "B", "J", "O", "O" ]),
@@ -45,7 +45,7 @@ public partial record class BoggleDice
 		new([ "H", "L", "N", "N", "R", "Z" ]),
 	];
 
-	private static readonly List<LetterDie> _Dice_BigBoggleOriginal =
+	public static readonly List<LetterDie> _Dice_BigBoggleOriginal =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),
@@ -78,7 +78,7 @@ public partial record class BoggleDice
 		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
-	private static readonly List<LetterDie> _Dice_BigBoggleDeluxe =
+	public static readonly List<LetterDie> _Dice_BigBoggleDeluxe =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),
@@ -111,7 +111,7 @@ public partial record class BoggleDice
 		new([ "O", "O", "O", "T", "T", "U" ]),
 	];
 
-	private static readonly List<LetterDie> _Dice_SuperBigBoggle2012 =
+	public static readonly List<LetterDie> _Dice_SuperBigBoggle2012 =
 	[
 		new([ "A", "A", "A", "F", "R", "S" ]),
 		new([ "A", "A", "E", "E", "E", "E" ]),

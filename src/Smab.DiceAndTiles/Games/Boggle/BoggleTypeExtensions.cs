@@ -1,6 +1,6 @@
 ﻿namespace Smab.DiceAndTiles.Games.Boggle;
 
-public static class BoggleTypes
+public static class BoggleTypeExtensions
 {
 	public const string BigBoggleOriginal  = "big";
 	public const string BigBoggleChallenge = "challenge";
@@ -19,6 +19,16 @@ public static class BoggleTypes
 		.. Enum.GetValues<BoggleType>().Select(b => b.ToString())
 		];
 
+	public static int BoardSize(this BoggleType boggleType) => (int)Math.Sqrt(boggleType switch
+	{
+		BoggleType.Classic4x4         => _Dice_Classic4x4.Count,
+		BoggleType.New4x4             => _Dice_New4x4.Count,
+		BoggleType.BigBoggleOriginal  => _Dice_BigBoggleOriginal.Count,
+		BoggleType.BigBoggleDeluxe    => _Dice_BigBoggleDeluxe.Count,
+		BoggleType.SuperBigBoggle2012 => _Dice_SuperBigBoggle2012.Count,
+		_ => throw new NotImplementedException(),
+	});
+
 	public static BoggleType ToBoggleType(this string type)
 	{
 		return type.ToLower() switch
@@ -30,7 +40,7 @@ public static class BoggleTypes
 			New4x4             => BoggleType.New4x4,
 			SuperBigBoggle2012 => BoggleType.SuperBigBoggle2012,
 			_ when Enum.TryParse(type, true, out BoggleType boggleType) => boggleType,
-			_ => throw new ArgumentException($"'{type}' is not a valid for shortcut to a {nameof(BoggleType)}", nameof(type)),
+			_ => throw new ArgumentException($"'{type}' is not valid for shortcut to a {nameof(BoggleType)}", nameof(type)),
 		};
 	}
 }

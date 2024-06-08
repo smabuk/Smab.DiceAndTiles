@@ -1,9 +1,53 @@
-﻿using static Smab.DiceAndTiles.Games.Boggle.BoggleDice;
-
-namespace Smab.DiceAndTiles.Games.Boggle;
+﻿namespace Smab.DiceAndTiles.Games.Boggle;
 
  public static class BoggleDiceExtensions
 {
+	public static List<LetterDie> Dice(BoggleType type) => type switch
+	{
+		BoggleType.Classic4x4         => new(_Dice_Classic4x4),
+		BoggleType.New4x4             => new(_Dice_New4x4),
+		BoggleType.BigBoggleOriginal  => new(_Dice_BigBoggleOriginal),
+		BoggleType.BigBoggleDeluxe    => new(_Dice_BigBoggleDeluxe),
+		BoggleType.SuperBigBoggle2012 => new(_Dice_SuperBigBoggle2012),
+		_ => throw new NotImplementedException(),
+	};
+
+	public static (BoggleDice BoggleDice, WordScore WordScore) PlayWord(this BoggleDice boggleDice, string word)
+	{
+		ScoreReason reason = ScoreReason.Success;
+		word = word.ToUpperInvariant();
+
+		List<PositionedDie> validSlots = boggleDice.SearchBoard(word);
+		int score = 0;
+		if (validSlots.Count == 0)
+		{
+			reason = ScoreReason.Unplayable;
+		}
+		else if (boggleDice.HasDictionary)
+		{
+			reason = boggleDice.dictionaryOfWords.IsWord(word) ? ScoreReason.Success : ScoreReason.Misspelt;
+		}
+
+		if (reason == ScoreReason.Success)
+		{
+			score = boggleDice.ScoreWord(word);
+			if (score == 0)
+			{
+				reason = ScoreReason.TooShort;
+			}
+		}
+
+		if (boggleDice.WordScores.Any(w => w.Word.Equals(word, StringComparison.InvariantCultureIgnoreCase)))
+		{
+			score = 0;
+			reason = ScoreReason.AlreadyPlayed;
+		}
+
+		WordScore wordScore = new(word, score, reason);
+		BoggleDice newBoggleDice = boggleDice with { WordScores = [.. boggleDice.WordScores, wordScore] };
+		return (newBoggleDice, wordScore);
+	}
+
 	public static int ScoreWord(this BoggleDice boggleDice, string word)
 	{
 		return word.Length switch
@@ -110,5 +154,35 @@ namespace Smab.DiceAndTiles.Games.Boggle;
 
 		visited[col, row] = false;
 		return found;
+	}
+
+	internal static List<PositionedDie> ShakeAndCreateBoard(BoggleType type)
+	{
+		LetterDie[] bag = [.. Dice(type)];
+		Random.Shared.Shuffle(bag);
+
+		List<PositionedDie> board = [];
+
+		for (int boardIndex = 0; boardIndex < bag.Length; boardIndex++)
+		{
+			LetterDie die = bag[boardIndex];
+			die = (LetterDie)die.Roll();
+			if (die.HasBlank)
+			{
+				for (int i = 0; i < die.Faces.Count; i++)
+				{
+					if (die.Faces[i].IsBlank)
+					{
+						die.Faces[i] = die.Faces[i] with { Display = BlankDisplay };
+					}
+				}
+			}
+
+			int boardSize = (int)Math.Sqrt(bag.Count());
+
+			board.Add(new PositionedDie(die with { Orientation = Random.Shared.Next(0, 4) * 90 }, boardIndex % boardSize, boardIndex / boardSize));
+		}
+
+		return board;
 	}
 }

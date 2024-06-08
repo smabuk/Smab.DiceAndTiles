@@ -17,6 +17,17 @@ public class BoggleTests
 		boggleSet.Board.Count.ShouldBe(expected);
 	}
 
+	[Theory]
+	[InlineData("classic", 16)]
+	[InlineData("Classic4x4", 16)]
+	[InlineData("BigBoggleDeluxe", 25)]
+	[InlineData("SuperBigBoggle2012", 36)]
+	public void Should_Create_Using_String(string boggleType, int expected)
+	{
+		BoggleDice boggleSet = new(boggleType);
+		boggleSet.Board.Count.ShouldBe(expected);
+	}
+
 	[Fact]
 	public void Should_Handle_Dice_With_Blanks_Properly()
 	{
@@ -44,27 +55,27 @@ public class BoggleTests
 		WordScore wordScore;
 
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 3 && d.Col < 3).Select(d => d.Die.Display));
-		wordScore = boggleDice.PlayWord(word);
+		(boggleDice, wordScore) = boggleDice.PlayWord(word);
 		wordScore.Score.ShouldBe(0);
 		wordScore.Reason.ShouldBe(ScoreReason.TooShort);
 
 		word = string.Join("", boggleDice.Board.Where(d => d.Row == 0).Select(d => d.Die.Display));
-		wordScore = boggleDice.PlayWord(word);
+		(boggleDice, wordScore) = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(ScoreReason.Success);
 		int shortWordBonus = word.Contains('Q') ? 1 : 0;
 		wordScore.Score.ShouldBe(2 + shortWordBonus);
 
-		wordScore = boggleDice.PlayWord(word);
+		(boggleDice, wordScore) = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(ScoreReason.AlreadyPlayed);
 		wordScore.Score.ShouldBe(0);
 
 		word += string.Join("", boggleDice.Board.Where(d => d.Col == 4 && d.Row > 0).Select(d => d.Die.Display));
-		wordScore = boggleDice.PlayWord(word);
+		(boggleDice, wordScore) = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(ScoreReason.Success);
 		wordScore.Score.ShouldBe(11);
 
 		word += string.Join("", boggleDice.Board.Where(d => d.Col is 0 or 4 && d.Row is 0 or 4).Select(d => d.Die.Display));
-		wordScore = boggleDice.PlayWord(word);
+		(boggleDice, wordScore) = boggleDice.PlayWord(word);
 		wordScore.Reason.ShouldBe(ScoreReason.Unplayable);
 		wordScore.Score.ShouldBe(0);
 
